@@ -1,82 +1,10 @@
 require("dotenv").config();
 const Logger = require("./logger");
-// const Scraper = require("./scrape");
-// const BrowserManager = require("./browser-manager");
-// const LoginService = require("./login-service");
-// const DataService = require("./data-service");
+const Scraper = require("./scrape");
+const BrowserManager = require("./browser-manager");
+const LoginService = require("./login-service");
+const DataService = require("./data-service");
 
-// Express.js for local development
-const express = require("express");
-const app = express();
-const PORT = process.env.PORT || 3000;
-
-// Local Express.js routes
-app.get("/", (req, res) => {
-  res.json({
-    message: "Hello World! 🚀 Apollo.io Scraper is running locally!",
-    timestamp: new Date().toISOString(),
-  });
-});
-
-// Health check endpoint
-app.get("/health", (req, res) => {
-  res.json({
-    status: "OK",
-    message: "Server is healthy",
-    timestamp: new Date().toISOString(),
-    environment: process.env.NODE_ENV || "development",
-  });
-});
-
-// Start local server
-if (require.main === module) {
-  app.listen(PORT, () => {
-    console.log(`🚀 Server running on http://localhost:${PORT}`);
-    console.log(`📊 Health check: http://localhost:${PORT}/health`);
-  });
-}
-
-// Azure Functions için HTTP trigger
-module.exports = async function (context, req) {
-  context.log("HTTP trigger function processed a request.");
-
-  // Ana sayfa
-  if (
-    req.method === "GET" &&
-    (!req.query || Object.keys(req.query).length === 0)
-  ) {
-    context.res = {
-      status: 200,
-      body: "Hello World! 🚀 Apollo.io Scraper is running on Azure Functions!",
-    };
-    return;
-  }
-
-  // Health check endpoint
-  if (req.method === "GET" && req.query && req.query.endpoint === "health") {
-    context.res = {
-      status: 200,
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: {
-        status: "OK",
-        message: "Server is healthy",
-        timestamp: new Date().toISOString(),
-      },
-    };
-    return;
-  }
-
-  // Diğer istekler için
-  context.res = {
-    status: 200,
-    body: "Hello World! 🚀 Apollo.io Scraper is running on Azure Functions!",
-  };
-};
-
-// Ana scraping fonksiyonu - şimdilik yoruma alındı
-/*
 async function main() {
   const browserManager = new BrowserManager();
   const dataService = new DataService();
@@ -118,4 +46,3 @@ async function main() {
 if (require.main === module) {
   main().catch(Logger.error);
 }
-*/
