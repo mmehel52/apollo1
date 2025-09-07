@@ -7,14 +7,13 @@ class LoginService {
 
   async login(email, password) {
     try {
-      Logger.info("Navigating to Apollo.io login page...");
+      Logger.info("Navigating to login page...");
       await this.browserManager
         .getPage()
         .goto("https://app.apollo.io/#/login", {
           waitUntil: "networkidle2",
         });
 
-      // Login formunu doldur
       await this.browserManager
         .getPage()
         .waitForSelector('input[type="email"]', {
@@ -25,84 +24,108 @@ class LoginService {
         .getPage()
         .type('input[type="password"]', password);
 
-      // Login butonuna tıkla
       await this.browserManager.getPage().click('button[type="submit"]');
 
-      // Login sonrası yönlendirmeyi bekle (daha uzun timeout)
       Logger.info("Waiting for login redirect...");
 
-      // Cloudflare kontrolü için bekle
-      Logger.info("Waiting for Cloudflare security check...");
-      Logger.info("If you see CAPTCHA, solve it manually and press Enter...");
-
-      // Kullanıcının manuel müdahalesini bekle
-      Logger.info("Checking CAPTCHA status...");
-
-      // 30 saniye bekle ve CAPTCHA'nın kaybolup kaybolmadığını kontrol et
-      for (let i = 0; i < 30; i++) {
-        await new Promise((resolve) => setTimeout(resolve, 1000));
-
-        try {
-          // Cloudflare overlay'inin kaybolup kaybolmadığını kontrol et
-          const cloudflareOverlay = await this.browserManager
-            .getPage()
-            .$("[data-ray]");
-          if (!cloudflareOverlay) {
-            Logger.success("Cloudflare check passed!");
-            break;
-          }
-
-          if (i % 5 === 0) {
-            Logger.info(`Still waiting... (${i}/30 seconds)`);
-          }
-        } catch (error) {
-          // Hata varsa devam et
-        }
-      }
-
-      // Hala CAPTCHA varsa manuel müdahale iste
-      try {
-        const cloudflareOverlay = await this.browserManager
-          .getPage()
-          .$("[data-ray]");
-        if (cloudflareOverlay) {
-          Logger.warning("CAPTCHA still active, manual solution required...");
-          await new Promise((resolve) => {
-            const readline = require("readline");
-            const rl = readline.createInterface({
-              input: process.stdin,
-              output: process.stdout,
-            });
-
-            rl.question("Press Enter after solving CAPTCHA...", () => {
-              rl.close();
-              resolve();
-            });
-          });
-        }
-      } catch (error) {
-        Logger.success("CAPTCHA check completed");
-      }
-
-      // Sayfa yüklenmesini bekle
       await new Promise((resolve) => setTimeout(resolve, 3000));
 
       Logger.success("Login successful");
 
-      // Belirtilen şirket sayfasına git (1-10 çalışan, önerilen skor sıralaması)
       const companiesUrl =
-        "https://app.apollo.io/#/companies?sortAscending=false&sortByField=recommendations_score&page=1&organizationNumEmployeesRanges[]=1%2C10";
-      Logger.info("Navigating to companies page...");
-      Logger.info("Filter: 1-10 employees, recommendations score sorting");
-      await this.browserManager.getPage().goto(companiesUrl, {
-        waitUntil: "networkidle2",
-        timeout: 60000, // 60 saniye bekle
-      });
+        "https://app.apollo.io/#/companies?organizationNumEmployeesRanges[]=1%2C10&organizationLocations[]=Florida%2C%20US&qOrganizationKeywordTags[]=business%20consulting%20%26%20services&includedOrganizationKeywordFields[]=tags&includedOrganizationKeywordFields[]=name&page=1&sortAscending=true&sortByField=sanitized_organization_name_unanalyzed";
+
+      // İstenilen sayfaya yönlendirme ve kontrol
+      await this.navigateToCompaniesPage(companiesUrl);
     } catch (error) {
       Logger.error("Login error:", error);
       throw error;
     }
   }
+
+  async navigateToCompaniesPage(targetUrl, maxRetries = 3) {
+    for (let attempt = 1; attempt <= maxRetries; attempt++) {
+      try {
+        Logger.info(
+          `Navigating to companies page... (Attempt ${attempt}/${maxRetries})`
+        );
+        Logger.info("Filter: 1-10 employees, recommendations score sorting");
+
+        await this.browserManager.getPage().goto(targetUrl, {
+          waitUntil: "networkidle2",
+          timeout: 60000,
+        });
+
+        // Sayfa yüklendikten sonra biraz bekle
+        await new Promise((resolve) => setTimeout(resolve, 5000));
+
+        // Mevcut URL'yi kontrol et
+        const currentUrl = this.browserManager.getPage().url();
+        Logger.info(`Current URL: ${currentUrl}`);
+
+        // URL'nin doğru olup olmadığını kontrol et
+        if (this.isCorrectPage(currentUrl, targetUrl)) {
+          Logger.success("Successfully navigated to companies page");
+          return;
+        } else {
+          Logger.warning(`Page navigation failed. Expected: ${targetUrl}`);
+          Logger.warning(`Current: ${currentUrl}`);
+
+          if (attempt < maxRetries) {
+            Logger.info(
+              `Retrying navigation... (${attempt + 1}/${maxRetries})`
+            );
+            await new Promise((resolve) => setTimeout(resolve, 3000));
+          }
+        }
+      } catch (error) {
+        Logger.error(`Navigation attempt ${attempt} failed:`, error);
+
+        if (attempt < maxRetries) {
+          Logger.info(`Retrying navigation... (${attempt + 1}/${maxRetries})`);
+          await new Promise((resolve) => setTimeout(resolve, 3000));
+        } else {
+          throw error;
+        }
+      }
+    }
+
+    throw new Error(
+      `Failed to navigate to companies page after ${maxRetries} attempts`
+    );
+  }
+
+  isCorrectPage(currentUrl, targetUrl) {
+    // URL'lerin temel kısımlarını karşılaştır
+    const currentBase = currentUrl.split("?")[0];
+    const targetBase = targetUrl.split("?")[0];
+
+    // Ana sayfa yolu aynı mı?
+    if (currentBase !== targetBase) {
+      return false;
+    }
+
+    // Companies sayfasında mıyız?
+    if (!currentUrl.includes("/companies")) {
+      return false;
+    }
+
+    // Login sayfasında değil miyiz?
+    if (currentUrl.includes("/login")) {
+      return false;
+    }
+
+    // Dashboard veya başka bir sayfada değil miyiz?
+    if (currentUrl.includes("/dashboard") || currentUrl.includes("/home")) {
+      return false;
+    }
+
+    return true;
+  }
 }
 
 module.exports = LoginService;
+
+// ("https://app.apollo.io/#/companies?organizationNumEmployeesRanges[]=1%2C10&organizationLocations[]=Florida%2C%20US&qOrganizationKeywordTags[]=business%20consulting%20%26%20services&includedOrganizationKeywordFields[]=tags&includedOrganizationKeywordFields[]=name&page=1&sortAscending=true&sortByField=sanitized_organization_name_unanalyzed");
+
+// ("https://app.apollo.io/#/companies?organizationNumEmployeesRanges[]=1%2C10&organizationLocations[]=Florida%2C%20US&qOrganizationKeywordTags[]=business%20consulting%20%26%20services&includedOrganizationKeywordFields[]=tags&includedOrganizationKeywordFields[]=name&page=1&sortAscending=false&sortByField=sanitized_organization_name_unanalyzed");

@@ -219,13 +219,6 @@ class Scraper {
       // Change sorting parameters in URL
       let newUrl = currentUrl;
 
-      // If sortByField exists, change it, otherwise add it
-      if (newUrl.includes("sortByField=")) {
-        newUrl = newUrl.replace(/sortByField=[^&]*/, "sortByField=name");
-      } else {
-        newUrl += (newUrl.includes("?") ? "&" : "?") + "sortByField=name";
-      }
-
       // Add sortAscending=true
       if (newUrl.includes("sortAscending=")) {
         newUrl = newUrl.replace(/sortAscending=[^&]*/, "sortAscending=true");
@@ -417,29 +410,28 @@ class Scraper {
         return [];
       }
 
-      const companies = await this.browserManager
-        .getPage()
-        .evaluate((selector) => {
+      const companies = await this.browserManager.getPage().evaluate(
+        (selector, logger) => {
           const companyRows = [];
           const rows = document.querySelectorAll(selector);
 
-          Logger.info(`Found ${rows.length} rows, analyzing...`);
+          logger.info(`Found ${rows.length} rows, analyzing...`);
 
           // Alternative method: Scan the entire page to find company data
           const alternativeMethod = () => {
-            Logger.info("Trying alternative method...");
+            logger.info("Trying alternative method...");
 
             // Find all company links
             const companyLinks = document.querySelectorAll(
               'a[href*="organizations"]'
             );
-            Logger.info(`Found ${companyLinks.length} company links`);
+            logger.info(`Found ${companyLinks.length} company links`);
 
             companyLinks.forEach((link, index) => {
               try {
                 const companyName = link.textContent.trim();
                 if (companyName && companyName.length > 0) {
-                  Logger.info(
+                  logger.info(
                     `Company found with alternative method: "${companyName}"`
                   );
 
@@ -698,20 +690,20 @@ class Scraper {
                   });
                 }
               } catch (error) {
-                Logger.error(`Alternative method row ${index} error:`, error);
+                logger.error(`Alternative method row ${index} error:`, error);
               }
             });
           };
 
           rows.forEach((row, index) => {
             // Debug: Check each row's HTML content
-            Logger.warning(
+            logger.warning(
               `Row ${index} HTML:`,
               row.outerHTML.substring(0, 300) + "..."
             );
 
             // Test all possible selectors for company name
-            Logger.warning(`Testing selectors for row ${index}...`);
+            logger.warning(`Testing selectors for row ${index}...`);
 
             try {
               // Find company name - Apollo.io's real structure
@@ -750,7 +742,7 @@ class Scraper {
               for (const nameSelector of nameSelectors) {
                 nameElement = row.querySelector(nameSelector);
                 if (nameElement && nameElement.textContent.trim()) {
-                  Logger.warning(
+                  logger.warning(
                     `Company name found: "${nameElement.textContent.trim()}" (selector: ${nameSelector})`
                   );
                   break;
@@ -758,13 +750,13 @@ class Scraper {
               }
 
               if (!nameElement || !nameElement.textContent.trim()) {
-                Logger.warning(`Row ${index}: Company name not found`);
-                Logger.warning(`selectors that tried`, nameSelectors);
+                logger.warning(`Row ${index}: Company name not found`);
+                logger.warning(`selectors that tried`, nameSelectors);
 
                 // Alternative method: Check all text content
                 const allText = row.textContent.trim();
                 if (allText.length > 0) {
-                  Logger.warning(
+                  logger.warning(
                     `Row ${index} text content:`,
                     allText.substring(0, 100) + "..."
                   );
@@ -1038,17 +1030,17 @@ class Scraper {
                 timestamp: new Date().toISOString(),
               });
 
-              Logger.info(
+              logger.info(
                 `Company found: ${companyName} (${companySize} employees, ${companyLocation})`
               );
             } catch (error) {
-              Logger.error(`Error processing row ${index}:`, error);
+              logger.error(`Error processing row ${index}:`, error);
             }
           });
 
           // If normal method failed, try alternative method
           if (companyRows.length === 0) {
-            Logger.warning(
+            logger.warning(
               "Normal method failed, trying alternative method..."
             );
             alternativeMethod();
@@ -1056,13 +1048,13 @@ class Scraper {
 
           // If still no company found, scan all pages to find
           if (companyRows.length === 0) {
-            Logger.warning("🔄 Scanning all pages...");
+            logger.warning("🔄 Scanning all pages...");
 
             // Find all company links
             const allCompanyLinks = document.querySelectorAll(
               'a[href*="organizations"], a[data-to*="organizations"]'
             );
-            Logger.warning(
+            logger.warning(
               `🔗 Total ${allCompanyLinks.length} company links found`
             );
 
@@ -1075,7 +1067,7 @@ class Scraper {
                   companyName.length < 100
                 ) {
                   // Filter out too long text
-                  Logger.warning(
+                  logger.warning(
                     `✅ all pages scanned and company found: "${companyName}"`
                   );
 
@@ -1334,13 +1326,16 @@ class Scraper {
                   });
                 }
               } catch (error) {
-                Logger.error(`All pages scanning row ${index} error:`, error);
+                logger.error(`All pages scanning row ${index} error:`, error);
               }
             });
           }
 
           return companyRows;
-        });
+        },
+        foundSelector,
+        Logger
+      );
 
       return companies;
     } catch (error) {
