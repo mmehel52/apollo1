@@ -34,7 +34,7 @@ const jobStatus = {
 // Health check endpoint
 app.get("/health", (req, res) => {
   res.json({
-    status: "healthy",
+    status: "hola mundo",
     timestamp: new Date().toISOString(),
     uptime: process.uptime(),
     scraping: isScraping,
