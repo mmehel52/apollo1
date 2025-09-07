@@ -1,0 +1,4 @@
+.env
+node_modules
+companies_data.json
+package-lock.json

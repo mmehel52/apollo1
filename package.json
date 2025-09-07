@@ -1,0 +1,30 @@
+{
+  "name": "apollo-scraper",
+  "version": "1.0.0",
+  "description": "Node.js scripti",
+  "main": "main.js",
+  "scripts": {
+    "start": "node main.js",
+    "scrape": "node main.js",
+    "dev": "node --inspect main.js"
+  },
+  "keywords": [
+    "scraper",
+    "puppeteer",
+    "web-scraping",
+    "companies"
+  ],
+  "author": "Jaxsuite",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^17.2.2",
+    "puppeteer": "^24.17.1",
+    "puppeteer-extra": "^3.3.6",
+    "puppeteer-extra-plugin-adblocker": "^2.13.6",
+    "puppeteer-extra-plugin-stealth": "^2.11.2",
+    "winston": "^3.17.0"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}
