@@ -4,9 +4,11 @@
   "description": "Node.js scripti",
   "main": "main.js",
   "scripts": {
-    "start": "node main.js",
+    "start": "node server.js",
+    "server": "node server.js",
     "scrape": "node main.js",
-    "dev": "node --inspect main.js"
+    "dev": "node --inspect server.js",
+    "dev:scrape": "node --inspect main.js"
   },
   "keywords": [
     "scraper",
@@ -17,6 +19,7 @@
   "author": "Jaxsuite",
   "license": "MIT",
   "dependencies": {
+    "cors": "^2.8.5",
     "dotenv": "^17.2.2",
     "express": "^4.21.2",
     "puppeteer": "^24.17.1",
