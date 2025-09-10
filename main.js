@@ -26,7 +26,7 @@ async function main() {
     await loginService.login(email, password);
 
     // Scrape company data (5 pages)
-    await scraper.scrapeCompanies(2);
+    await scraper.scrapeCompanies(1);
 
     // Save data
     await dataService.saveToJSON();
@@ -43,6 +43,5 @@ async function main() {
   }
 }
 
-if (require.main === module) {
-  main().catch(Logger.error);
-}
+// main fonksiyonunu export et (cron job için)
+module.exports = { main };

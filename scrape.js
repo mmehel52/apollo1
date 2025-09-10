@@ -8,77 +8,33 @@ class Scraper {
 
   async scrapeCompanies(maxPages = 5) {
     try {
-      Logger.info(
-        `Scraping company data... (${maxPages} pages + ${maxPages} more pages with reverse sorting)`
-      );
-
-      // First 5 pages (recommendations_score descending)
-      Logger.info(
-        "Scraping first 5 pages (recommendations_score descending)..."
-      );
       for (let pageNum = 1; pageNum <= maxPages; pageNum++) {
-        Logger.info(`Processing page ${pageNum}...`);
-
-        // Wait for page to load
         await new Promise((resolve) => setTimeout(resolve, 5000));
 
-        // Extract company data
         const pageCompanies = await this.extractCompaniesFromPage();
         this.dataService.addCompanies(pageCompanies);
 
-        Logger.info(`Page ${pageNum}: Found ${pageCompanies.length} companies`);
-
-        // Go to next page (if exists)
         if (pageNum < maxPages) {
           const hasNextPage = await this.goToNextPage();
           if (!hasNextPage) {
-            Logger.info("Next page not found, first section completed");
             break;
           }
         }
       }
 
-      Logger.success(
-        `First ${maxPages} pages completed. Total ${
-          this.dataService.getCompanies().length
-        } companies collected.`
-      );
-
-      // Change sorting to name ascending
-      Logger.info("Changing sorting: name ascending...");
-      await this.changeSortingToNameAscending();
-
-      // Second 5 pages (name ascending)
-      Logger.info("Scraping second 5 pages (name ascending)...");
       for (let pageNum = 1; pageNum <= maxPages; pageNum++) {
-        Logger.info(`Processing page ${pageNum} (name ascending)...`);
-
-        // Wait for page to load
         await new Promise((resolve) => setTimeout(resolve, 5000));
 
-        // Extract company data
         const pageCompanies = await this.extractCompaniesFromPage();
         this.dataService.addCompanies(pageCompanies);
 
-        Logger.info(
-          `Page ${pageNum} (name ascending): Found ${pageCompanies.length} companies`
-        );
-
-        // Go to next page (if exists)
         if (pageNum < maxPages) {
           const hasNextPage = await this.goToNextPage();
           if (!hasNextPage) {
-            Logger.info("Next page not found, second section completed");
             break;
           }
         }
       }
-
-      Logger.success(
-        `Total ${
-          this.dataService.getCompanies().length
-        } company data collected (${maxPages} pages descending + ${maxPages} pages ascending)`
-      );
     } catch (error) {
       Logger.error("Data scraping error:", error);
       throw error;

@@ -1,0 +1,64 @@
+{"level":"info","message":"✅ 🚀 Apollo.io Scraper Server running on port 3000","service":"apollo-scraper","timestamp":"2025-09-09 08:34:38"}
+{"level":"info","message":"Health check: http://localhost:3000/health","service":"apollo-scraper","timestamp":"2025-09-09 08:34:38"}
+{"level":"info","message":"✅ 🚀  Server running on port 3000","service":"apollo-scraper","timestamp":"2025-09-09 21:49:30"}
+{"level":"info","message":"Health check: http://localhost:3000/health","service":"apollo-scraper","timestamp":"2025-09-09 21:49:30"}
+{"level":"info","message":"✅ 🚀  Server running on port 5000","service":"apollo-scraper","timestamp":"2025-09-09 21:50:20"}
+{"level":"info","message":"✅ 🚀  Server running on port 5000","service":"apollo-scraper","timestamp":"2025-09-09 23:42:04"}
+{"level":"info","message":"🛑 Server kapatılıyor...","service":"apollo-scraper","timestamp":"2025-09-09 23:49:00"}
+{"level":"info","message":"✅ 🚀  Server running on port 5000","service":"apollo-scraper","timestamp":"2025-09-09 23:49:08"}
+{"level":"info","message":"✅ 🚀 Cron job servisi başlatıldı","service":"apollo-scraper","timestamp":"2025-09-09 23:49:12"}
+{"level":"info","message":"⏰ Apollo scraping job her saat başı çalışacak şekilde planlandı","service":"apollo-scraper","timestamp":"2025-09-09 23:49:12"}
+{"level":"info","message":"🛑 Server kapatılıyor...","service":"apollo-scraper","timestamp":"2025-09-09 23:49:24"}
+{"level":"info","message":"✅ 🚀  Server running on port 5000","service":"apollo-scraper","timestamp":"2025-09-09 23:50:52"}
+{"level":"info","message":"🛑 Server kapatılıyor...","service":"apollo-scraper","timestamp":"2025-09-09 23:51:31"}
+{"level":"info","message":"✅ 🚀  Server running on port 5000","service":"apollo-scraper","timestamp":"2025-09-09 23:51:35"}
+{"level":"info","message":"🛑 Server kapatılıyor...","service":"apollo-scraper","timestamp":"2025-09-09 23:52:59"}
+{"level":"info","message":"✅ 🚀  Server running on port 5000","service":"apollo-scraper","timestamp":"2025-09-10 00:21:52"}
+{"level":"info","message":"✅ 🚀  Server running on port 5000","service":"apollo-scraper","timestamp":"2025-09-10 00:27:37"}
+{"level":"info","message":"✅ 🚀  Server running on port 5000","service":"apollo-scraper","timestamp":"2025-09-10 00:31:01"}
+{"level":"info","message":"✅ 🚀  Server running on port 5000","service":"apollo-scraper","timestamp":"2025-09-10 00:39:12"}
+{"level":"info","message":"✅ 🚀  Server running on port 5000","service":"apollo-scraper","timestamp":"2025-09-10 00:44:48"}
+{"level":"info","message":"✅ 🚀 Cron job servisi başlatıldı","service":"apollo-scraper","timestamp":"2025-09-10 00:44:54"}
+{"level":"info","message":"⏰ Apollo scraping job her dakika çalışacak şekilde planlandı","service":"apollo-scraper","timestamp":"2025-09-10 00:44:54"}
+{"level":"info","message":"🧪 Test job başlatılıyor...","service":"apollo-scraper","timestamp":"2025-09-10 00:45:01"}
+{"level":"info","message":"🔄 Job manuel olarak çalıştırıldı","service":"apollo-scraper","timestamp":"2025-09-10 00:45:02"}
+{"level":"info","message":"🕐 Cron job başlatılıyor: Apollo.io scraping...","service":"apollo-scraper","timestamp":"2025-09-10 00:45:02"}
+{"level":"info","message":"✅ ✅ Cron job başarıyla tamamlandı","service":"apollo-scraper","timestamp":"2025-09-10 00:45:02"}
+{"level":"info","message":"✅ Job scrape-apollo tamamlandı","service":"apollo-scraper","timestamp":"2025-09-10 00:45:02"}
+{"level":"info","message":"🧪 Test job başlatılıyor...","service":"apollo-scraper","timestamp":"2025-09-10 00:46:22"}
+{"level":"info","message":"🔄 Job manuel olarak çalıştırıldı","service":"apollo-scraper","timestamp":"2025-09-10 00:46:22"}
+{"level":"info","message":"🕐 Cron job başlatılıyor: Apollo.io scraping...","service":"apollo-scraper","timestamp":"2025-09-10 00:46:23"}
+{"level":"info","message":"✅ ✅ Cron job başarıyla tamamlandı","service":"apollo-scraper","timestamp":"2025-09-10 00:46:23"}
+{"level":"info","message":"✅ Job scrape-apollo tamamlandı","service":"apollo-scraper","timestamp":"2025-09-10 00:46:23"}
+{"level":"info","message":"✅ 🚀  Server running on port 5000","service":"apollo-scraper","timestamp":"2025-09-10 00:46:44"}
+{"level":"info","message":"✅ 🚀 Cron job servisi başlatıldı","service":"apollo-scraper","timestamp":"2025-09-10 00:46:47"}
+{"level":"info","message":"⏰ Apollo scraping job her dakika çalışacak şekilde planlandı","service":"apollo-scraper","timestamp":"2025-09-10 00:46:48"}
+{"level":"info","message":"🧪 Test job başlatılıyor...","service":"apollo-scraper","timestamp":"2025-09-10 00:46:50"}
+{"level":"info","message":"🔄 Job manuel olarak çalıştırıldı","service":"apollo-scraper","timestamp":"2025-09-10 00:46:50"}
+{"level":"info","message":"🕐 Cron job başlatılıyor: Apollo.io scraping...","service":"apollo-scraper","timestamp":"2025-09-10 00:46:51"}
+{"level":"info","message":"🚀 Apollo.io Scraper starting...","service":"apollo-scraper","timestamp":"2025-09-10 00:46:51"}
+{"level":"info","message":"🌐 Puppeteer browser scraping...","service":"apollo-scraper","timestamp":"2025-09-10 00:46:51"}
+{"level":"info","message":"Starting browser...","service":"apollo-scraper","timestamp":"2025-09-10 00:46:51"}
+{"level":"info","message":"✅ Browser started successfully","service":"apollo-scraper","timestamp":"2025-09-10 00:46:52"}
+{"level":"info","message":"Navigating to login page...","service":"apollo-scraper","timestamp":"2025-09-10 00:46:52"}
+{"level":"info","message":"Waiting for login redirect...","service":"apollo-scraper","timestamp":"2025-09-10 00:47:16"}
+{"level":"info","message":"✅ Login successful","service":"apollo-scraper","timestamp":"2025-09-10 00:47:19"}
+{"level":"info","message":"Navigating to companies page... (Attempt 1/3)","service":"apollo-scraper","timestamp":"2025-09-10 00:47:19"}
+{"level":"info","message":"Filter: 1-10 employees, recommendations score sorting","service":"apollo-scraper","timestamp":"2025-09-10 00:47:19"}
+{"level":"info","message":"Current URL: https://app.apollo.io/#/companies?organizationNumEmployeesRanges[]=1%2C10&organizationLocations[]=Florida%2C%20US&qOrganizationKeywordTags[]=business%20consulting%20%26%20services&includedOrganizationKeywordFields[]=tags&includedOrganizationKeywordFields[]=name&page=1&sortAscending=true&sortByField=sanitized_organization_name_unanalyzed","service":"apollo-scraper","timestamp":"2025-09-10 00:47:25"}
+{"level":"info","message":"✅ Successfully navigated to companies page","service":"apollo-scraper","timestamp":"2025-09-10 00:47:25"}
+{"level":"info","message":"Scraping company data... (2 pages + 2 more pages with reverse sorting)","service":"apollo-scraper","timestamp":"2025-09-10 00:47:25"}
+{"level":"info","message":"Scraping first 5 pages (recommendations_score descending)...","service":"apollo-scraper","timestamp":"2025-09-10 00:47:25"}
+{"level":"info","message":"Processing page 1...","service":"apollo-scraper","timestamp":"2025-09-10 00:47:25"}
+{"level":"info","message":"✅ 🚀  Server running on port 5000","service":"apollo-scraper","timestamp":"2025-09-10 00:53:11"}
+{"level":"info","message":"✅ 🚀 Cron job service started","service":"apollo-scraper","timestamp":"2025-09-10 00:53:14"}
+{"level":"info","message":"⏰ Apollo scraping job every 10 minutes","service":"apollo-scraper","timestamp":"2025-09-10 00:53:14"}
+{"level":"info","message":"✅ 🚀  Server running on port 5000","service":"apollo-scraper","timestamp":"2025-09-10 01:10:51"}
+{"level":"info","message":"✅ 🚀 Cron job service started","service":"apollo-scraper","timestamp":"2025-09-10 01:10:54"}
+{"level":"info","message":"⏰ Apollo scraping job every 10 minutes","service":"apollo-scraper","timestamp":"2025-09-10 01:10:54"}
+{"level":"info","message":"✅ 🚀  Server running on port 5000","service":"apollo-scraper","timestamp":"2025-09-10 01:11:25"}
+{"level":"info","message":"✅ 🚀 Cron job service started","service":"apollo-scraper","timestamp":"2025-09-10 01:11:28"}
+{"level":"info","message":"⏰ Apollo scraping job every 10 minutes","service":"apollo-scraper","timestamp":"2025-09-10 01:11:28"}
+{"level":"info","message":"✅ 🚀  Server running on port 5000","service":"apollo-scraper","timestamp":"2025-09-10 01:15:38"}
+{"level":"info","message":"✅ 🚀 Cron job service started","service":"apollo-scraper","timestamp":"2025-09-10 01:15:41"}
+{"level":"info","message":"⏰ Apollo scraping job every 10 minutes","service":"apollo-scraper","timestamp":"2025-09-10 01:15:41"}
