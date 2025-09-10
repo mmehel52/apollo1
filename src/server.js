@@ -1,11 +1,12 @@
 const express = require("express");
 const cors = require("cors");
+require("dotenv").config();
 const Logger = require("./logger");
-const CronJobService = require("./cron-job-service");
+
+const agenda = require("./jobs");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
-const cronJobService = new CronJobService();
 
 // Middleware
 app.use(cors());
@@ -23,13 +24,6 @@ app.get("/health", (req, res) => {
 // Start server
 app.listen(PORT, async () => {
   Logger.success(`🚀  Server running on port ${PORT}`);
-
-  // Start cron job service
-  try {
-    await cronJobService.start();
-  } catch (error) {
-    Logger.error("Cron job service failed to start:", error);
-  }
 });
 
 module.exports = app;

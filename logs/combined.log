@@ -62,3 +62,60 @@
 {"level":"info","message":"✅ 🚀  Server running on port 5000","service":"apollo-scraper","timestamp":"2025-09-10 01:15:38"}
 {"level":"info","message":"✅ 🚀 Cron job service started","service":"apollo-scraper","timestamp":"2025-09-10 01:15:41"}
 {"level":"info","message":"⏰ Apollo scraping job every 10 minutes","service":"apollo-scraper","timestamp":"2025-09-10 01:15:41"}
+{"level":"info","message":"🔗 Connecting to MongoDB: mongodb://script-server-server:MWWHT7kUQxPaHlYqTl4xiPacoxDt9UCWX1EIIMAFOS4IHDGiRwumPsSGz1ESMxXpjLMQA0uURAATACDb3aDLNA%3D%3D@script-server-server.mongo.cosmos.azure.com:10255/?ssl=true&retrywrites=false&maxIdleTimeMS=120000&appName=@script-server-server@&authSource=admin&authMechanism=SCRAM-SHA-1","service":"apollo-scraper","timestamp":"2025-09-10 18:12:16"}
+{"level":"info","message":"✅ 🚀  Server running on port 5000","service":"apollo-scraper","timestamp":"2025-09-10 18:12:16"}
+{"level":"info","message":"🔄 Initializing cron job service...","service":"apollo-scraper","timestamp":"2025-09-10 18:12:16"}
+{"level":"info","message":"🔄 Starting Agenda...","service":"apollo-scraper","timestamp":"2025-09-10 18:12:16"}
+{"level":"info","message":"🔗 Connecting to MongoDB: mongodb://script-server-server:MWWHT7kUQxPaHlYqTl4xiPacoxDt9UCWX1EIIMAFOS4IHDGiRwumPsSGz1ESMxXpjLMQA0uURAATACDb3aDLNA%3D%3D@script-server-server.mongo.cosmos.azure.com:10255/?ssl=true&retrywrites=false&maxIdleTimeMS=120000&appName=@script-server-server@&authSource=admin&authMechanism=SCRAM-SHA-1","service":"apollo-scraper","timestamp":"2025-09-10 18:24:49"}
+{"level":"info","message":"✅ 🚀  Server running on port 5000","service":"apollo-scraper","timestamp":"2025-09-10 18:24:49"}
+{"level":"info","message":"🔄 Initializing cron job service...","service":"apollo-scraper","timestamp":"2025-09-10 18:24:49"}
+{"level":"info","message":"🔄 Starting Agenda...","service":"apollo-scraper","timestamp":"2025-09-10 18:24:49"}
+{"level":"info","message":"✅ 🚀 Cron job service started","service":"apollo-scraper","timestamp":"2025-09-10 18:24:54"}
+{"level":"info","message":"📅 Scheduling job: every minute","service":"apollo-scraper","timestamp":"2025-09-10 18:24:54"}
+{"level":"info","message":"⏰ Apollo scraping job scheduled for every minute","service":"apollo-scraper","timestamp":"2025-09-10 18:24:55"}
+{"level":"info","message":"📊 Total jobs in queue: 1","service":"apollo-scraper","timestamp":"2025-09-10 18:24:55"}
+{"level":"info","message":"Job 1: scrape-apollo - Next run: Wed Sep 10 2025 18:25:00 GMT+0200 (Orta Avrupa Yaz Saati)","service":"apollo-scraper","timestamp":"2025-09-10 18:24:55"}
+{"level":"info","message":"✅ ✅ Cron job service initialized successfully","service":"apollo-scraper","timestamp":"2025-09-10 18:24:55"}
+{"level":"info","message":"🔗 Connecting to MongoDB: mongodb://script-server-server:MWWHT7kUQxPaHlYqTl4xiPacoxDt9UCWX1EIIMAFOS4IHDGiRwumPsSGz1ESMxXpjLMQA0uURAATACDb3aDLNA%3D%3D@script-server-server.mongo.cosmos.azure.com:10255/?ssl=true&retrywrites=false&maxIdleTimeMS=120000&appName=@script-server-server@&authSource=admin&authMechanism=SCRAM-SHA-1","service":"apollo-scraper","timestamp":"2025-09-10 18:28:27"}
+{"level":"info","message":"✅ 🚀  Server running on port 5000","service":"apollo-scraper","timestamp":"2025-09-10 18:28:27"}
+{"level":"info","message":"🔄 Initializing cron job service...","service":"apollo-scraper","timestamp":"2025-09-10 18:28:27"}
+{"level":"info","message":"🔄 Starting Agenda...","service":"apollo-scraper","timestamp":"2025-09-10 18:28:27"}
+{"level":"info","message":"📡 Agenda is ready and connected to MongoDB","service":"apollo-scraper","timestamp":"2025-09-10 18:28:31"}
+{"level":"info","message":"✅ 🚀 Cron job service started","service":"apollo-scraper","timestamp":"2025-09-10 18:28:31"}
+{"level":"info","message":"🧹 Cleared existing jobs","service":"apollo-scraper","timestamp":"2025-09-10 18:28:31"}
+{"level":"info","message":"📅 Scheduling job: every minute","service":"apollo-scraper","timestamp":"2025-09-10 18:28:31"}
+{"level":"info","message":"⏰ Apollo scraping job scheduled for every minute","service":"apollo-scraper","timestamp":"2025-09-10 18:28:32"}
+{"level":"info","message":"📋 Job ID: 68c1a72e6caf9b46e0c71f9c","service":"apollo-scraper","timestamp":"2025-09-10 18:28:32"}
+{"level":"info","message":"📊 Total scrape-apollo jobs in queue: 1","service":"apollo-scraper","timestamp":"2025-09-10 18:28:32"}
+{"level":"info","message":"Job 1: scrape-apollo","service":"apollo-scraper","timestamp":"2025-09-10 18:28:32"}
+{"level":"info","message":"   - Next run: Wed Sep 10 2025 18:29:00 GMT+0200 (Orta Avrupa Yaz Saati)","service":"apollo-scraper","timestamp":"2025-09-10 18:28:32"}
+{"level":"info","message":"   - Repeat interval: * * * * *","service":"apollo-scraper","timestamp":"2025-09-10 18:28:32"}
+{"level":"info","message":"   - Last run: Never","service":"apollo-scraper","timestamp":"2025-09-10 18:28:32"}
+{"level":"info","message":"🧪 Running first job immediately for testing...","service":"apollo-scraper","timestamp":"2025-09-10 18:28:32"}
+{"level":"info","message":"✅ ✅ Cron job service initialized successfully","service":"apollo-scraper","timestamp":"2025-09-10 18:28:32"}
+{"level":"info","message":"🔗 Connecting to MongoDB: mongodb://script-server-server:MWWHT7kUQxPaHlYqTl4xiPacoxDt9UCWX1EIIMAFOS4IHDGiRwumPsSGz1ESMxXpjLMQA0uURAATACDb3aDLNA%3D%3D@script-server-server.mongo.cosmos.azure.com:10255/?ssl=true&retrywrites=false&maxIdleTimeMS=120000&appName=@script-server-server@&authSource=admin&authMechanism=SCRAM-SHA-1","service":"apollo-scraper","timestamp":"2025-09-10 18:39:46"}
+{"level":"info","message":"✅ 🚀  Server running on port 5000","service":"apollo-scraper","timestamp":"2025-09-10 18:39:46"}
+{"level":"info","message":"🔄 Initializing cron job service...","service":"apollo-scraper","timestamp":"2025-09-10 18:39:46"}
+{"level":"info","message":"🔄 Starting Agenda...","service":"apollo-scraper","timestamp":"2025-09-10 18:39:46"}
+{"level":"info","message":"✅ 🚀 Cron job service started","service":"apollo-scraper","timestamp":"2025-09-10 18:39:50"}
+{"level":"info","message":"📅 Scheduling job: every minute","service":"apollo-scraper","timestamp":"2025-09-10 18:39:50"}
+{"level":"info","message":"⏰ Apollo scraping job scheduled for every minute","service":"apollo-scraper","timestamp":"2025-09-10 18:39:50"}
+{"level":"info","message":"📊 Total jobs in queue: 2","service":"apollo-scraper","timestamp":"2025-09-10 18:39:50"}
+{"level":"info","message":"Job 1: scrape-apollo - Next run: Wed Sep 10 2025 18:40:00 GMT+0200 (Orta Avrupa Yaz Saati)","service":"apollo-scraper","timestamp":"2025-09-10 18:39:50"}
+{"level":"info","message":"Job 2: scrape-apollo - Next run: Wed Sep 10 2025 18:28:32 GMT+0200 (Orta Avrupa Yaz Saati)","service":"apollo-scraper","timestamp":"2025-09-10 18:39:50"}
+{"level":"info","message":"✅ ✅ Cron job service initialized successfully","service":"apollo-scraper","timestamp":"2025-09-10 18:39:50"}
+{"level":"info","message":"🔗 Connecting to MongoDB: mongodb://script-server-server:MWWHT7kUQxPaHlYqTl4xiPacoxDt9UCWX1EIIMAFOS4IHDGiRwumPsSGz1ESMxXpjLMQA0uURAATACDb3aDLNA%3D%3D@script-server-server.mongo.cosmos.azure.com:10255/?ssl=true&retrywrites=false&maxIdleTimeMS=120000&appName=@script-server-server@&authSource=admin&authMechanism=SCRAM-SHA-1","service":"apollo-scraper","timestamp":"2025-09-10 18:41:23"}
+{"level":"info","message":"✅ 🚀  Server running on port 5000","service":"apollo-scraper","timestamp":"2025-09-10 18:41:23"}
+{"level":"info","message":"🔄 Initializing cron job service...","service":"apollo-scraper","timestamp":"2025-09-10 18:41:23"}
+{"level":"info","message":"🔄 Starting Agenda...","service":"apollo-scraper","timestamp":"2025-09-10 18:41:23"}
+{"level":"info","message":"✅ 🚀 Cron job service started","service":"apollo-scraper","timestamp":"2025-09-10 18:41:27"}
+{"level":"info","message":"📅 Scheduling job: every minute","service":"apollo-scraper","timestamp":"2025-09-10 18:41:27"}
+{"level":"info","message":"⏰ Apollo scraping job scheduled for every 5 minutes","service":"apollo-scraper","timestamp":"2025-09-10 18:41:27"}
+{"level":"info","message":"📊 Total jobs in queue: 2","service":"apollo-scraper","timestamp":"2025-09-10 18:41:27"}
+{"level":"info","message":"Job 1: scrape-apollo - Next run: Wed Sep 10 2025 18:45:00 GMT+0200 (Orta Avrupa Yaz Saati)","service":"apollo-scraper","timestamp":"2025-09-10 18:41:27"}
+{"level":"info","message":"Job 2: scrape-apollo - Next run: Wed Sep 10 2025 18:28:32 GMT+0200 (Orta Avrupa Yaz Saati)","service":"apollo-scraper","timestamp":"2025-09-10 18:41:27"}
+{"level":"info","message":"✅ ✅ Cron job service initialized successfully","service":"apollo-scraper","timestamp":"2025-09-10 18:41:27"}
+{"level":"info","message":"✅ 🚀  Server running on port 5000","service":"apollo-scraper","timestamp":"2025-09-10 21:06:25"}
+{"level":"info","message":"Agenda started!","service":"apollo-scraper","timestamp":"2025-09-10 21:06:30"}
+{"level":"info","message":"✅ 🚀  Server running on port 5000","service":"apollo-scraper","timestamp":"2025-09-10 21:07:04"}
+{"level":"info","message":"Agenda started!","service":"apollo-scraper","timestamp":"2025-09-10 21:07:08"}

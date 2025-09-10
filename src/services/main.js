@@ -1,5 +1,4 @@
-require("dotenv").config();
-const Logger = require("./logger");
+const Logger = require("../logger");
 const Scraper = require("./scrape");
 const BrowserManager = require("./browser-manager");
 const LoginService = require("./login-service");
@@ -43,5 +42,4 @@ async function main() {
   }
 }
 
-// main fonksiyonunu export et (cron job için)
 module.exports = { main };
