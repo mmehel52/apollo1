@@ -6,290 +6,196 @@ class Scraper {
     this.dataService = dataService;
   }
 
-  async scrapeCompanies(maxPages = 5) {
+  updatePageInUrl(url, pageNum) {
     try {
-      for (let pageNum = 1; pageNum <= maxPages; pageNum++) {
-        await new Promise((resolve) => setTimeout(resolve, 5000));
+      const urlObj = new URL(url);
 
-        const pageCompanies = await this.extractCompaniesFromPage();
-        this.dataService.addCompanies(pageCompanies);
+      // page parametresini güncelle
+      urlObj.searchParams.set("page", pageNum.toString());
 
-        // if (pageNum < maxPages) {
-        //   const hasNextPage = await this.goToNextPage();
-        //   if (!hasNextPage) {
-        //     break;
-        //   }
-        // }
-      }
-
-      // for (let pageNum = 1; pageNum <= maxPages; pageNum++) {
-      //   await new Promise((resolve) => setTimeout(resolve, 5000));
-
-      //   const pageCompanies = await this.extractCompaniesFromPage();
-      //   this.dataService.addCompanies(pageCompanies);
-
-      //   if (pageNum < maxPages) {
-      //     const hasNextPage = await this.goToNextPage();
-      //     if (!hasNextPage) {
-      //       break;
-      //     }
-      //   }
-      // }
+      return urlObj.toString();
     } catch (error) {
-      Logger.error("Data scraping error:", error);
-      throw error;
-    }
-  }
+      Logger.error("URL güncelleme hatası:", error);
 
-  async changeSortingToNameAscending() {
-    try {
-      Logger.info("Looking for sort button...");
-
-      // Find sort button
-      const sortSelectors = [
-        'button[aria-label*="sort"]',
-        'button[aria-label*="Sort"]',
-        'button[data-testid*="sort"]',
-        'button[data-testid*="Sort"]',
-        ".sort-button",
-        ".sort-btn",
-        'button[class*="sort"]',
-        'button[class*="Sort"]',
-        // Apollo.io specific selectors
-        'button[aria-label="Sort by"]',
-        'button[aria-label="Sort"]',
-        'button[data-testid="sort-button"]',
-        'button[data-testid="sort"]',
-        // Dropdown or select element
-        'select[data-testid*="sort"]',
-        'select[class*="sort"]',
-        // More general selectors
-        'button:contains("Sort")',
-        'button:contains("sort")',
-        '[role="button"]:contains("Sort")',
-        '[role="button"]:contains("sort")',
-      ];
-
-      let sortButton = null;
-      for (const selector of sortSelectors) {
-        try {
-          sortButton = await this.browserManager.getPage().$(selector);
-          if (sortButton) {
-            Logger.success(`Sort button found: ${selector}`);
-            break;
-          }
-        } catch (error) {
-          // Selector not found, continue
-        }
-      }
-
-      if (sortButton) {
-        try {
-          // Click sort button
-          await sortButton.click();
-          Logger.success("Sort button clicked");
-
-          // Wait for dropdown menu to open
-          await new Promise((resolve) => setTimeout(resolve, 2000));
-
-          // Find name ascending option and click
-          const nameAscendingSelectors = [
-            'button:contains("Name")',
-            'button:contains("name")',
-            'button:contains("Company Name")',
-            'button:contains("company name")',
-            'button:contains("Organization Name")',
-            'button:contains("organization name")',
-            '[data-testid*="name"]',
-            '[data-testid*="Name"]',
-            'li:contains("Name")',
-            'li:contains("name")',
-            'div:contains("Name")',
-            'div:contains("name")',
-            // For ascending
-            'button:contains("A-Z")',
-            'button:contains("Ascending")',
-            'button:contains("ascending")',
-            '[data-testid*="ascending"]',
-            '[data-testid*="Ascending"]',
-          ];
-
-          let nameOption = null;
-          for (const selector of nameAscendingSelectors) {
-            try {
-              nameOption = await this.browserManager.getPage().$(selector);
-              if (nameOption) {
-                Logger.success(`Name ascending option found: ${selector}`);
-                break;
-              }
-            } catch (error) {
-              // Selector not found, continue
-            }
-          }
-
-          if (nameOption) {
-            await nameOption.click();
-            Logger.success("Name ascending selected");
-
-            // Wait for page to load
-            await new Promise((resolve) => setTimeout(resolve, 5000));
-
-            // Check if sorting change is visible in URL
-            const newUrl = this.browserManager.getPage().url();
-            if (
-              newUrl.includes("sortByField=name") ||
-              newUrl.includes("sortAscending=true")
-            ) {
-              Logger.success("Sorting changed successfully");
-            } else {
-              Logger.warning("Sorting change not visible in URL");
-            }
-          } else {
-            Logger.warning("Name ascending option not found");
-            // Alternative: Change sorting via URL
-            await this.changeSortingViaURL();
-          }
-        } catch (error) {
-          Logger.error("Sorting change error:", error);
-          // Alternative: Change sorting via URL
-          await this.changeSortingViaURL();
-        }
+      // Fallback: regex ile page parametresini değiştir
+      if (url.includes("page=")) {
+        return url.replace(/page=\d+/, `page=${pageNum}`);
       } else {
-        Logger.warning("Sort button not found, changing via URL...");
-        await this.changeSortingViaURL();
+        return `${url}${url.includes("?") ? "&" : "?"}page=${pageNum}`;
       }
-    } catch (error) {
-      Logger.error("General sorting change error:", error);
-      await this.changeSortingViaURL();
     }
   }
 
-  async changeSortingViaURL() {
+  updateSortingInUrl(url) {
     try {
-      Logger.info("Changing sorting via URL...");
+      const urlObj = new URL(url);
+      const currentSortAscending = urlObj.searchParams.get("sortAscending");
+      const newSortAscending =
+        currentSortAscending === "true" ? "false" : "true";
 
-      // Get current URL
-      const currentUrl = this.browserManager.getPage().url();
-      Logger.info(`Current URL: ${currentUrl}`);
+      urlObj.searchParams.set("sortAscending", newSortAscending);
+      urlObj.searchParams.set("page", "1");
 
-      // Change sorting parameters in URL
-      let newUrl = currentUrl;
+      Logger.info(
+        `Sorting changed: ${currentSortAscending} → ${newSortAscending}`
+      );
+      return urlObj.toString();
+    } catch (error) {
+      Logger.error("Sorting URL update error:", error);
 
-      // Add sortAscending=true
+      let newUrl = url;
+
+      const currentSortMatch = newUrl.match(/sortAscending=([^&]*)/);
+      const currentSortAscending = currentSortMatch
+        ? currentSortMatch[1]
+        : "true";
+
+      const newSortAscending =
+        currentSortAscending === "true" ? "false" : "true";
+
       if (newUrl.includes("sortAscending=")) {
-        newUrl = newUrl.replace(/sortAscending=[^&]*/, "sortAscending=true");
+        newUrl = newUrl.replace(
+          /sortAscending=[^&]*/,
+          `sortAscending=${newSortAscending}`
+        );
       } else {
-        newUrl += "&sortAscending=true";
+        newUrl += `${
+          newUrl.includes("?") ? "&" : "?"
+        }sortAscending=${newSortAscending}`;
       }
 
-      // Set page number to 1
       if (newUrl.includes("page=")) {
         newUrl = newUrl.replace(/page=\d+/, "page=1");
       } else {
         newUrl += "&page=1";
       }
 
-      Logger.info(`New URL: ${newUrl}`);
+      Logger.info(
+        `Sorting changed (fallback): ${currentSortAscending} → ${newSortAscending}`
+      );
+      return newUrl;
+    }
+  }
 
-      // Go to new URL
-      await this.browserManager.getPage().goto(newUrl, {
+  updateTagInUrl(url, newTag) {
+    try {
+      const urlObj = new URL(url);
+
+      urlObj.searchParams.delete("qOrganizationKeywordTags[]");
+      urlObj.searchParams.append("qOrganizationKeywordTags[]", newTag);
+      urlObj.searchParams.set("page", "1");
+
+      Logger.info(`Tag updated: "${newTag}"`);
+      return urlObj.toString();
+    } catch (error) {
+      Logger.error("Tag URL update error:", error);
+
+      let newUrl = url;
+
+      newUrl = newUrl.replace(/&?qOrganizationKeywordTags\[\]=[^&]*/g, "");
+      const separator = newUrl.includes("?") ? "&" : "?";
+      newUrl += `${separator}qOrganizationKeywordTags[]=${encodeURIComponent(
+        newTag
+      )}`;
+
+      if (newUrl.includes("page=")) {
+        newUrl = newUrl.replace(/page=\d+/, "page=1");
+      } else {
+        newUrl += "&page=1";
+      }
+
+      Logger.info(`Tag updated (fallback): "${newTag}"`);
+      return newUrl;
+    }
+  }
+
+  async scrapeCompanies(maxPages = 5) {
+    try {
+      const keyTags = JSON.parse(process.env.KEYTAGS || "[]");
+      Logger.info(`Found ${keyTags.length} tags to process`);
+
+      if (keyTags.length === 0) {
+        Logger.warning("No KEYTAGS found, using default scraping");
+        await this.scrapeWithCurrentUrl(maxPages);
+        return;
+      }
+
+      for (let tagIndex = 0; tagIndex < keyTags.length; tagIndex++) {
+        const currentTag = keyTags[tagIndex];
+
+        const baseUrl = this.browserManager.getPage().url();
+
+        const tagUrl = this.updateTagInUrl(baseUrl, currentTag);
+        await this.browserManager.getPage().goto(tagUrl, {
+          waitUntil: "networkidle2",
+          timeout: 60000,
+        });
+
+        await this.scrapeWithCurrentUrl(maxPages);
+
+        if (tagIndex < keyTags.length - 1) {
+          Logger.info("⏳ Waiting between tags...");
+          await new Promise((resolve) => setTimeout(resolve, 10000));
+        }
+      }
+
+      Logger.success(`🎉 All ${keyTags.length} tags processed successfully!`);
+    } catch (error) {
+      Logger.error("Data scraping error:", error);
+      throw error;
+    }
+  }
+
+  async scrapeWithCurrentUrl(maxPages) {
+    try {
+      const baseUrl = this.browserManager.getPage().url();
+      await this.scrapePagesLoop(baseUrl, maxPages);
+      const reversedUrl = this.updateSortingInUrl(baseUrl);
+      await this.scrapePagesLoop(reversedUrl, maxPages);
+
+      Logger.success(`✅ Tag completed: ${maxPages * 2} pages processed`);
+    } catch (error) {
+      Logger.error("Tag scraping error:", error);
+      throw error;
+    }
+  }
+
+  async scrapePagesLoop(baseUrl, maxPages) {
+    for (let pageNum = 1; pageNum <= maxPages; pageNum++) {
+      if (pageNum > 1) {
+        await new Promise((resolve) => setTimeout(resolve, 5000));
+      }
+
+      const pageUrl = this.updatePageInUrl(baseUrl, pageNum);
+
+      await this.browserManager.getPage().goto(pageUrl, {
         waitUntil: "networkidle2",
         timeout: 60000,
       });
 
-      Logger.success("Sorting changed successfully via URL");
-    } catch (error) {
-      Logger.error("URL sorting change error:", error);
-    }
-  }
+      await new Promise((resolve) => setTimeout(resolve, 3000));
 
-  async goToNextPage() {
-    try {
-      const nextButtonSelectors = [
-        'button[aria-label="Next page"]',
-        'button[aria-label="Next"]',
-        'button[data-testid="next-page"]',
-        'button[data-testid="pagination-next"]',
-        ".pagination-next",
-        ".next-page",
-        'a[aria-label="Next page"]',
-        'a[aria-label="Next"]',
-        '[data-testid="next-page"]',
-        '[data-testid="pagination-next"]',
-        // Apollo.io spesifik selector'lar
-        'button[class*="next"]',
-        'button[class*="Next"]',
-        'a[class*="next"]',
-        'a[class*="Next"]',
-        // Sayfa numarası ile
-        `button:contains("${this.getCurrentPageNumber() + 1}")`,
-        `a:contains("${this.getCurrentPageNumber() + 1}")`,
-      ];
+      const pageCompanies = await this.extractCompaniesFromPage();
 
-      let nextButton = null;
-      for (const selector of nextButtonSelectors) {
-        try {
-          nextButton = await this.browserManager.getPage().$(selector);
-          if (nextButton) {
-            Logger.success(`Pagination button found: ${selector}`);
-            break;
-          }
-        } catch (error) {
-          // Selector not found, continue
-        }
+      if (pageCompanies.length === 0) {
+        Logger.warning(` Page ${pageNum} companies not found`);
+        continue;
       }
 
-      if (nextButton) {
-        try {
-          await nextButton.click();
-          Logger.success(`Moved to next page`);
-
-          // Wait for page to load
-          await new Promise((resolve) => setTimeout(resolve, 5000));
-
-          // Check if page number is changed in URL
-          const newUrl = this.browserManager.getPage().url();
-          const expectedPage = this.getCurrentPageNumber() + 1;
-          if (newUrl.includes(`page=${expectedPage}`)) {
-            Logger.success(`Page ${expectedPage} verified in URL`);
-          } else {
-            Logger.warning(`Page change not verified in URL: ${newUrl}`);
-          }
-          return true;
-        } catch (error) {
-          Logger.error(`Next page navigation error:`, error);
-          return false;
-        }
-      } else {
-        Logger.warning("Next page not found");
-        return false;
-      }
-    } catch (error) {
-      Logger.error("Pagination error:", error);
-      return false;
-    }
-  }
-
-  getCurrentPageNumber() {
-    try {
-      const url = this.browserManager.getPage().url();
-      const match = url.match(/page=(\d+)/);
-      return match ? parseInt(match[1]) : 1;
-    } catch (error) {
-      return 1;
+      this.dataService.addCompanies(pageCompanies);
+      Logger.success(
+        ` Page ${pageNum}: ${pageCompanies.length} companies found`
+      );
     }
   }
 
   async extractCompaniesFromPage() {
     try {
-      // Debug: Check page structure
       Logger.info("Analyzing page structure...");
 
-      // First wait for page to load
       Logger.info("Waiting for page to load...");
       await new Promise((resolve) => setTimeout(resolve, 15000));
 
-      // Wait for company data to load
       try {
         await this.browserManager
           .getPage()
@@ -299,7 +205,6 @@ class Scraper {
         Logger.warning("Timeout waiting for company names, continuing...");
       }
 
-      // Additional waiting time - Apollo.io's slow loading
       Logger.info("Additional waiting time...");
       await new Promise((resolve) => setTimeout(resolve, 5000));
 
@@ -307,7 +212,7 @@ class Scraper {
       const pageContent = await this.browserManager.getPage().content();
       Logger.info(`Page content length: ${pageContent.length} characters`);
 
-      // Try different selectors (Apollo.io's new structure)
+      // Try different selectors
       const possibleSelectors = [
         '[role="row"]',
         ".company-row",

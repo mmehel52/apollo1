@@ -46,24 +46,15 @@ class LoginService {
   async navigateToCompaniesPage(targetUrl, maxRetries = 3) {
     for (let attempt = 1; attempt <= maxRetries; attempt++) {
       try {
-        Logger.info(
-          `Navigating to companies page... (Attempt ${attempt}/${maxRetries})`
-        );
-        Logger.info("Filter: 1-10 employees, recommendations score sorting");
-
         await this.browserManager.getPage().goto(targetUrl, {
           waitUntil: "networkidle2",
           timeout: 60000,
         });
 
-        // Sayfa yüklendikten sonra biraz bekle
         await new Promise((resolve) => setTimeout(resolve, 5000));
 
-        // Mevcut URL'yi kontrol et
         const currentUrl = this.browserManager.getPage().url();
-        Logger.info(`Current URL: ${currentUrl}`);
 
-        // URL'nin doğru olup olmadığını kontrol et
         if (this.isCorrectPage(currentUrl, targetUrl)) {
           Logger.success("Successfully navigated to companies page");
           return;
@@ -72,9 +63,6 @@ class LoginService {
           Logger.warning(`Current: ${currentUrl}`);
 
           if (attempt < maxRetries) {
-            Logger.info(
-              `Retrying navigation... (${attempt + 1}/${maxRetries})`
-            );
             await new Promise((resolve) => setTimeout(resolve, 3000));
           }
         }
@@ -125,7 +113,3 @@ class LoginService {
 }
 
 module.exports = LoginService;
-
-// ("https://app.apollo.io/#/companies?organizationNumEmployeesRanges[]=1%2C10&organizationLocations[]=Florida%2C%20US&qOrganizationKeywordTags[]=business%20consulting%20%26%20services&includedOrganizationKeywordFields[]=tags&includedOrganizationKeywordFields[]=name&page=1&sortAscending=true&sortByField=sanitized_organization_name_unanalyzed");
-
-// ("https://app.apollo.io/#/companies?organizationNumEmployeesRanges[]=1%2C10&organizationLocations[]=Florida%2C%20US&qOrganizationKeywordTags[]=business%20consulting%20%26%20services&includedOrganizationKeywordFields[]=tags&includedOrganizationKeywordFields[]=name&page=1&sortAscending=false&sortByField=sanitized_organization_name_unanalyzed");
