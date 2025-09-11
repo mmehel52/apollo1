@@ -14,27 +14,27 @@ class Scraper {
         const pageCompanies = await this.extractCompaniesFromPage();
         this.dataService.addCompanies(pageCompanies);
 
-        if (pageNum < maxPages) {
-          const hasNextPage = await this.goToNextPage();
-          if (!hasNextPage) {
-            break;
-          }
-        }
+        // if (pageNum < maxPages) {
+        //   const hasNextPage = await this.goToNextPage();
+        //   if (!hasNextPage) {
+        //     break;
+        //   }
+        // }
       }
 
-      for (let pageNum = 1; pageNum <= maxPages; pageNum++) {
-        await new Promise((resolve) => setTimeout(resolve, 5000));
+      // for (let pageNum = 1; pageNum <= maxPages; pageNum++) {
+      //   await new Promise((resolve) => setTimeout(resolve, 5000));
 
-        const pageCompanies = await this.extractCompaniesFromPage();
-        this.dataService.addCompanies(pageCompanies);
+      //   const pageCompanies = await this.extractCompaniesFromPage();
+      //   this.dataService.addCompanies(pageCompanies);
 
-        if (pageNum < maxPages) {
-          const hasNextPage = await this.goToNextPage();
-          if (!hasNextPage) {
-            break;
-          }
-        }
-      }
+      //   if (pageNum < maxPages) {
+      //     const hasNextPage = await this.goToNextPage();
+      //     if (!hasNextPage) {
+      //       break;
+      //     }
+      //   }
+      // }
     } catch (error) {
       Logger.error("Data scraping error:", error);
       throw error;
