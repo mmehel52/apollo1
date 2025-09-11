@@ -8,11 +8,9 @@ class LoginService {
   async login(email, password) {
     try {
       Logger.info("Navigating to login page...");
-      await this.browserManager
-        .getPage()
-        .goto("https://app.apollo.io/#/login", {
-          waitUntil: "networkidle2",
-        });
+      await this.browserManager.getPage().goto(process.env.LOGIN_URL, {
+        waitUntil: "networkidle2",
+      });
 
       await this.browserManager
         .getPage()
@@ -32,10 +30,8 @@ class LoginService {
 
       Logger.success("Login successful");
 
-      const companiesUrl =
-        "https://app.apollo.io/#/companies?organizationNumEmployeesRanges[]=1%2C10&organizationLocations[]=Florida%2C%20US&qOrganizationKeywordTags[]=business%20consulting%20%26%20services&includedOrganizationKeywordFields[]=tags&includedOrganizationKeywordFields[]=name&page=1&sortAscending=true&sortByField=sanitized_organization_name_unanalyzed";
+      const companiesUrl = process.env.COMPANY_URL;
 
-      // İstenilen sayfaya yönlendirme ve kontrol
       await this.navigateToCompaniesPage(companiesUrl);
     } catch (error) {
       Logger.error("Login error:", error);
