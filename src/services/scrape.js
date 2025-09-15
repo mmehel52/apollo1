@@ -199,13 +199,13 @@ class Scraper {
 
       // Sayfa içeriğini kontrol et
       const pageContent = await this.browserManager.getPage().content();
-      Logger.info(`📄 Page content length: ${pageContent.length} characters`);
+      Logger.info(`📄 Page content: ${pageContent}`);
 
-      // Login kontrolü
-      if (pageContent.includes("login") || pageContent.includes("signin")) {
-        Logger.warning("⚠️ Still on login page, login may have failed");
-        return [];
-      }
+      // // Login kontrolü
+      // if (pageContent.includes("login") || pageContent.includes("signin")) {
+      //   Logger.warning("⚠️ Still on login page, login may have failed");
+      //   return [];
+      // }
 
       // Şirket verilerini çıkar
       const companies = await this.browserManager.getPage().evaluate(() => {

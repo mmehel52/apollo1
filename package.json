@@ -20,11 +20,13 @@
   "license": "MIT",
   "dependencies": {
     "agenda": "^5.0.0",
+    "chrome-aws-lambda": "^10.1.0",
     "cors": "^2.8.5",
     "dotenv": "^17.2.2",
     "express": "^4.21.2",
     "node-cron": "^4.2.1",
     "puppeteer": "^24.17.1",
+    "puppeteer-core": "^24.20.0",
     "puppeteer-extra": "^3.3.6",
     "puppeteer-extra-plugin-adblocker": "^2.13.6",
     "puppeteer-extra-plugin-stealth": "^2.11.2",
