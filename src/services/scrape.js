@@ -194,10 +194,8 @@ class Scraper {
     try {
       Logger.info("🔍 Extracting companies from page...");
 
-      // Sayfa yüklenmesini bekle
       await new Promise((resolve) => setTimeout(resolve, 10000));
 
-      // Sayfa içeriğini kontrol et
       const pageContent = await this.browserManager.getPage().content();
       Logger.info(`📄 Page content: ${pageContent}`);
 
@@ -207,11 +205,11 @@ class Scraper {
       //   return [];
       // }
 
-      // Şirket verilerini çıkar
+      // Extract companies from page
       const companies = await this.browserManager.getPage().evaluate(() => {
         const companyRows = [];
 
-        // Farklı selector'ları dene
+        // Try different selectors
         const selectors = [
           '[role="row"]',
           ".zp_xvo3G",
@@ -236,10 +234,10 @@ class Scraper {
           return [];
         }
 
-        // Her satırı işle
+        // Process each row
         rows.forEach((row, index) => {
           try {
-            // Şirket adını bul
+            // Find company name
             const nameSelectors = [
               'a[href*="organizations"] span',
               'a[href*="organizations"] .zp_xvo3G',
@@ -260,36 +258,36 @@ class Scraper {
             }
 
             if (!companyName) {
-              return; // Şirket adı bulunamadı
+              return; // Company name not found
             }
 
-            // Logo URL'sini bul
+            // Find logo URL
             const logoImg = row.querySelector(
               'img[alt*="logo"], img[alt*="company"]'
             );
             const logoUrl = logoImg ? logoImg.src : "";
 
-            // Website URL'sini bul
+            // Find website URL
             const websiteLink = row.querySelector(
               'a[href*="http"]:not([href*="apollo.io"]):not([href*="linkedin"]):not([href*="facebook"]):not([href*="twitter"])'
             );
             const websiteUrl = websiteLink ? websiteLink.href : "";
 
-            // LinkedIn URL'sini bul
+            // Find LinkedIn URL
             const linkedinLink = row.querySelector('a[href*="linkedin.com"]');
             const linkedinUrl = linkedinLink ? linkedinLink.href : "";
 
-            // Facebook URL'sini bul
+            // Find Facebook URL
             const facebookLink = row.querySelector('a[href*="facebook.com"]');
             const facebookUrl = facebookLink ? facebookLink.href : "";
 
-            // Twitter URL'sini bul
+            // Find Twitter URL
             const twitterLink = row.querySelector(
               'a[href*="twitter.com"], a[href*="x.com"]'
             );
             const twitterUrl = twitterLink ? twitterLink.href : "";
 
-            // Şirket boyutunu bul
+            // Find company size
             const sizeElement = row.querySelector(
               ".zp_Vnh4L, .company-size, .size, .employees"
             );
@@ -297,7 +295,7 @@ class Scraper {
               ? sizeElement.textContent.trim()
               : "";
 
-            // Konumu bul
+            // Find location
             const locationElement = row.querySelector(
               ".zp_Vnh4L, .company-location, .location, .city, .country"
             );
