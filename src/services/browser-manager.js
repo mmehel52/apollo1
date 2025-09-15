@@ -12,7 +12,7 @@ class BrowserManager {
       Logger.info("Starting browser...");
 
       this.browser = await puppeteer.launch({
-        headless: headless ? "new" : false,
+        headless: true,
         defaultViewport: null,
         args: [
           "--no-sandbox",

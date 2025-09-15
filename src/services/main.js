@@ -25,7 +25,7 @@ async function main() {
     await loginService.login(email, password);
 
     // Scrape company data (5 pages)
-    await scraper.scrapeCompanies(5);
+    await scraper.scrapeCompanies(2);
 
     // Save data
     await dataService.saveToJSON();
