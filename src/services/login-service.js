@@ -66,7 +66,6 @@ class LoginService {
       await new Promise((resolve) => setTimeout(resolve, 5000));
 
       const currentUrl = this.browserManager.getPage().url();
-      Logger.info(`Current URL after login: ${currentUrl}`);
 
       if (currentUrl.includes("/login") || currentUrl.includes("/signin")) {
         const errorMessage = await this.browserManager

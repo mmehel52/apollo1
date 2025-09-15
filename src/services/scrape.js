@@ -197,13 +197,12 @@ class Scraper {
       await new Promise((resolve) => setTimeout(resolve, 10000));
 
       const pageContent = await this.browserManager.getPage().content();
-      Logger.info(`📄 Page content: ${pageContent}`);
 
-      // // Login kontrolü
-      // if (pageContent.includes("login") || pageContent.includes("signin")) {
-      //   Logger.warning("⚠️ Still on login page, login may have failed");
-      //   return [];
-      // }
+      // Login kontrolü
+      if (pageContent.includes("login") || pageContent.includes("signin")) {
+        Logger.warning("⚠️ Still on login page, login may have failed");
+        return [];
+      }
 
       // Extract companies from page
       const companies = await this.browserManager.getPage().evaluate(() => {
