@@ -20,7 +20,6 @@
   "license": "MIT",
   "dependencies": {
     "agenda": "^5.0.0",
-    "chrome-aws-lambda": "^10.1.0",
     "cors": "^2.8.5",
     "dotenv": "^17.2.2",
     "express": "^4.21.2",
