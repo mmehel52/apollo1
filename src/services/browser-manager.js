@@ -27,6 +27,7 @@ class BrowserManager {
           "--no-first-run",
         ],
         timeout: 60000,
+        dumpio: true,
       });
 
       this.page = await this.browser.newPage();
@@ -53,7 +54,7 @@ class BrowserManager {
 
       Logger.success("Browser started successfully");
     } catch (error) {
-      Logger.error("Browser startup error:", error);
+      Logger.error("Browser startup error:", error.stack || error);
       throw error;
     }
   }
