@@ -16,6 +16,35 @@ class BrowserManager {
     try {
       Logger.info("Starting browser...");
 
+      // Chrome path kontrolü
+      let chromePath;
+      const possiblePaths = [
+        "/usr/bin/google-chrome",
+        "/usr/bin/google-chrome-stable",
+        "/usr/bin/chromium-browser",
+        "/usr/bin/chromium",
+        "/opt/google/chrome/chrome",
+        "/opt/google/chrome/google-chrome",
+        process.env.PUPPETEER_EXECUTABLE_PATH,
+      ].filter(Boolean);
+
+      chromePath = possiblePaths.find((p) => {
+        try {
+          return fs.existsSync(p);
+        } catch {
+          return false;
+        }
+      });
+
+      if (!chromePath) {
+        Logger.info(
+          "System Chrome not found, using Puppeteer's bundled Chrome"
+        );
+        chromePath = undefined;
+      } else {
+        Logger.info(`Using Chrome at: ${chromePath}`);
+      }
+
       // Basit args listesi
       const commonArgs = [
         "--no-sandbox",
@@ -31,6 +60,10 @@ class BrowserManager {
         args: commonArgs,
         timeout: 60000,
       };
+
+      if (chromePath) {
+        launchOptions.executablePath = chromePath;
+      }
 
       this.browser = await puppeteer.launch(launchOptions);
       this.page = await this.browser.newPage();
