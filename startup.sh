@@ -10,8 +10,21 @@ echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" > /et
 apt-get update
 apt-get install -y google-chrome-stable
 
-# Chrome'un yolunu ayarla
-export PUPPETEER_EXECUTABLE_PATH=/usr/bin/google-chrome
+# Chrome'un yolunu kontrol et
+if [ -f "/usr/bin/google-chrome" ]; then
+    echo "Chrome successfully installed at /usr/bin/google-chrome"
+else
+    echo "Chrome installation failed, trying alternative path..."
+    # Alternatif yolları dene
+    CHROME_PATHS=("/usr/bin/google-chrome" "/usr/bin/chromium-browser" "/usr/bin/chromium")
+    for path in "${CHROME_PATHS[@]}"; do
+        if [ -f "$path" ]; then
+            echo "Found Chrome at: $path"
+            export PUPPETEER_EXECUTABLE_PATH="$path"
+            break
+        fi
+    done
+fi
 
 # Node.js uygulamasını başlat
 echo "Starting Node.js application..."

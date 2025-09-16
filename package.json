@@ -10,7 +10,7 @@
     "dev": "node --inspect src/server.js",
     "dev:scrape": "node --inspect src/services/main.js",
     "install-chrome": "bash install-chrome.sh",
-    "postinstall": "npx puppeteer browsers install chrome"
+    "postinstall": "npx puppeteer browsers install chrome || echo 'Chrome install failed, will try system Chrome'"
   },
   "keywords": [
     "scraper",

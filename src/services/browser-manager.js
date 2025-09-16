@@ -16,10 +16,24 @@ class BrowserManager {
       Logger.info("Starting browser...");
 
       // Azure App Service için Chrome yolu
-      const isAzure = true;
-      const chromePath = isAzure
-        ? "/usr/bin/google-chrome"
-        : process.env.PUPPETEER_EXECUTABLE_PATH;
+      const isAzure = process.env.WEBSITE_SITE_NAME !== undefined;
+
+      let chromePath;
+      if (isAzure) {
+        // Azure'da Chrome yollarını dene
+        const possiblePaths = [
+          "/usr/bin/google-chrome",
+          "/usr/bin/chromium-browser",
+          "/usr/bin/chromium",
+          process.env.PUPPETEER_EXECUTABLE_PATH,
+        ].filter(Boolean);
+
+        chromePath = possiblePaths[0]; // İlk yolu dene
+        Logger.info(`Azure detected, using Chrome path: ${chromePath}`);
+      } else {
+        chromePath = undefined; // Local'de Puppeteer'ın kendi Chrome'unu kullan
+        Logger.info("Local environment, using default Chrome");
+      }
 
       const launchOptions = {
         headless: isAzure ? true : headless, // Azure'da her zaman headless
