@@ -87,22 +87,30 @@ class BrowserManager {
         timeout: 60000,
         dumpio: false,
       };
-
+      Logger.info("run1");
       // Proxy ayarları
       // if (useProxy) {
       //   Logger.info("Proxy kullanılıyor: 4.239.245.88:3128");
       //   launchOptions.args.push("--proxy-server=http://4.239.245.88:3128");
+      //   // Proxy için ek ayarlar
+      //   launchOptions.args.push("--proxy-bypass-list=<-loopback>");
+      //   launchOptions.args.push("--disable-proxy-certificate-handler");
+      //   launchOptions.args.push("--ignore-certificate-errors");
+      //   launchOptions.args.push("--ignore-ssl-errors");
+      //   launchOptions.args.push("--ignore-certificate-errors-spki-list");
+      //   launchOptions.args.push("--disable-web-security");
+      //   launchOptions.args.push("--allow-running-insecure-content");
       // }
 
       this.browser = await puppeteer.launch(launchOptions);
-
+      Logger.info("run2");
       this.page = await this.browser.newPage();
-
+      Logger.info("run3");
       // Daha gerçekçi user agent
       await this.page.setUserAgent(
         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"
       );
-
+      Logger.info("run4");
       // Gerekli header'ları ekle
       await this.page.setExtraHTTPHeaders({
         Accept:
@@ -118,7 +126,7 @@ class BrowserManager {
         "Sec-Fetch-User": "?1",
         "Cache-Control": "max-age=0",
       });
-
+      Logger.info("run5");
       // WebDriver özelliklerini gizle
       await this.page.evaluateOnNewDocument(() => {
         Object.defineProperty(navigator, "webdriver", {
@@ -132,7 +140,7 @@ class BrowserManager {
           runtime: {},
         };
       });
-
+      Logger.info("run6");
       // Permissions API'yi gizle
       await this.page.evaluateOnNewDocument(() => {
         const originalQuery = window.navigator.permissions.query;
@@ -141,12 +149,12 @@ class BrowserManager {
             ? Promise.resolve({ state: Notification.permission })
             : originalQuery(parameters));
       });
-
+      Logger.info("run7");
       // viewport ve timeout ayarları
       await this.page.setViewport({ width: 1920, height: 1080 });
       this.page.setDefaultTimeout(60000);
       this.page.setDefaultNavigationTimeout(60000);
-
+      Logger.info("run8");
       // Cookie'leri ayarla
       await this.page.setCookie({
         name: "_ga",
@@ -154,21 +162,21 @@ class BrowserManager {
           "GA1.2." + Math.random().toString(36).substr(2, 9) + "." + Date.now(),
         domain: ".apollo.io",
       });
-
+      Logger.info("run9");
       await this.page.setCookie({
         name: "_gid",
         value:
           "GA1.2." + Math.random().toString(36).substr(2, 9) + "." + Date.now(),
         domain: ".apollo.io",
       });
-
+      Logger.info("run10");
       await this.page.setCookie({
         name: "_fbp",
         value:
           "fb.1." + Date.now() + "." + Math.random().toString(36).substr(2, 9),
         domain: ".apollo.io",
       });
-
+      Logger.info("run11");
       // Cloudflare için daha az agresif filtreleme
       await this.page.setRequestInterception(true);
       this.page.on("request", (req) => {
@@ -185,7 +193,7 @@ class BrowserManager {
           });
           return;
         }
-
+        Logger.info("run12");
         // Sadece font'ları engelle, CSS ve resimleri bırak
         if (type === "font") {
           req.abort();
@@ -193,10 +201,10 @@ class BrowserManager {
           req.continue();
         }
       });
-
+      Logger.info("run13");
       Logger.success("Browser started successfully");
     } catch (error) {
-      Logger.error("Browser startup error:", error.stack || error);
+      Logger.error("Browser startup error:", error);
       throw error;
     }
   }
@@ -220,13 +228,13 @@ class BrowserManager {
   async bypassCloudflare() {
     try {
       Logger.info("Cloudflare verification ekranını geçmeye çalışıyor...");
-
+      Logger.info("run14");
       // Sayfanın yüklenmesini bekle
       await this.page.waitForFunction(
         () => document.readyState === "complete",
         { timeout: 30000 }
       );
-
+      Logger.info("run15");
       // Cloudflare challenge'ı kontrol et
       const isCloudflareChallenge = await this.page.evaluate(() => {
         return (

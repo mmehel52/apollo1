@@ -14,8 +14,8 @@ async function main() {
     Logger.info("🚀 Apollo.io Scraper starting...");
     Logger.info("🌐 Puppeteer browser scraping...");
 
-    // Start browser with proxy
-    await browserManager.init({ headless: false, useProxy: true });
+    // Start browser without proxy (proxy server has issues)
+    await browserManager.init({ headless: false, useProxy: false });
 
     // Login credentials (environment variables)
     const email = process.env.APOLLO_EMAIL;
@@ -38,6 +38,7 @@ async function main() {
 
     await browserManager.close();
   } catch (error) {
+    console.log(error);
     Logger.error("Main process error:", error);
   }
 }
