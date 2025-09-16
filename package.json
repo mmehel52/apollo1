@@ -10,7 +10,7 @@
     "dev": "node --inspect src/server.js",
     "dev:scrape": "node --inspect src/services/main.js",
     "install-chrome": "bash install-chrome.sh",
-    "postinstall": "npx puppeteer browsers install chrome || echo 'Chrome install failed, will try system Chrome'"
+    "postinstall": "npx puppeteer@latest install --with-deps"
   },
   "keywords": [
     "scraper",
@@ -26,7 +26,7 @@
     "dotenv": "^17.2.2",
     "express": "^4.21.2",
     "node-cron": "^4.2.1",
-    "puppeteer": "^24.17.1",
+    "puppeteer": "^24.21.0",
     "puppeteer-core": "^24.20.0",
     "puppeteer-extra": "^3.3.6",
     "puppeteer-extra-plugin-adblocker": "^2.13.6",
