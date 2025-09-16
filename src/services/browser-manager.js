@@ -16,7 +16,7 @@ class BrowserManager {
       Logger.info("Starting browser...");
 
       // Azure App Service için Chrome yolu
-      const isAzure = process.env.WEBSITE_SITE_NAME !== undefined;
+      const isAzure = true;
       const chromePath = isAzure
         ? "/usr/bin/google-chrome"
         : process.env.PUPPETEER_EXECUTABLE_PATH;
