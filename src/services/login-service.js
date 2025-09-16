@@ -15,9 +15,6 @@ class LoginService {
         timeout: 60000,
       });
 
-      // Cloudflare verification ekranını geç
-      await this.browserManager.bypassCloudflare();
-
       await new Promise((resolve) => setTimeout(resolve, 5000));
 
       Logger.info("Waiting for login form...");
