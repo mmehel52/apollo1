@@ -8,7 +8,9 @@
     "server": "node src/server.js",
     "scrape": "node src/services/main.js",
     "dev": "node --inspect src/server.js",
-    "dev:scrape": "node --inspect src/services/main.js"
+    "dev:scrape": "node --inspect src/services/main.js",
+    "install-chrome": "bash install-chrome.sh",
+    "postinstall": "npx puppeteer browsers install chrome"
   },
   "keywords": [
     "scraper",
