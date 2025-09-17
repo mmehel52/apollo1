@@ -100,7 +100,7 @@ class LoginService {
       const companiesUrl = process.env.COMPANY_URL;
       await this.navigateToCompaniesPage(companiesUrl);
     } catch (error) {
-      Logger.error("Login error:", error);
+      Logger.error(`Login error: ${error}`);
 
       throw error;
     }
@@ -130,7 +130,7 @@ class LoginService {
           }
         }
       } catch (error) {
-        Logger.error(`Navigation attempt ${attempt} failed:`, error);
+        Logger.error(`Navigation attempt ${attempt} failed: ${error}`);
 
         if (attempt < maxRetries) {
           Logger.info(`Retrying navigation... (${attempt + 1}/${maxRetries})`);
