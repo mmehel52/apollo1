@@ -14,10 +14,18 @@ class BrowserManager {
     try {
       Logger.info("Starting browser...");
 
+      Logger.info(
+        "puppeteer.executablePath():",
+        puppeteer.executablePath && puppeteer.executablePath()
+      );
       this.browser = await puppeteer.launch({
-        executablePath: "/usr/bin/chromium",
         headless: true,
-        args: ["--no-sandbox", "--disable-setuid-sandbox"],
+        dumpio: true,
+        args: [
+          "--no-sandbox",
+          "--disable-setuid-sandbox",
+          "--disable-dev-shm-usage",
+        ],
       });
 
       this.page = await this.browser.newPage();
