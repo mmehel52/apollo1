@@ -13,13 +13,22 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-cron.schedule("0 * * * *", async () => {
+// cron.schedule("0 * * * *", async () => {
+//   Logger.info("Scrapping app cron");
+//   await main();
+//   Logger.success("Scrapped app");
+// });
+
+app.get("/scrabe", async (req, res) => {
   Logger.info("Scrapping app cron");
   await main();
   Logger.success("Scrapped app");
+  res.json({
+    status: "Scrapped app",
+    timestamp: new Date().toISOString(),
+  });
 });
 
-// Health check endpoint
 app.get("/health", (req, res) => {
   res.json({
     status: "hola mundo",
