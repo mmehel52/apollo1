@@ -9,7 +9,9 @@
     "scrape": "node src/services/main.js",
     "dev": "node --inspect src/server.js",
     "dev:scrape": "node --inspect src/services/main.js",
-    "postinstall": "npx puppeteer browsers install chrome || echo 'Chrome installation failed, will try system Chrome'"
+    "postinstall": "npx puppeteer browsers install chrome || echo 'Chrome installation failed, will try system Chrome'",
+    "install-chrome": "npx puppeteer browsers install chrome",
+    "test-browser": "node launch-test.js"
   },
   "keywords": [
     "scraper",
