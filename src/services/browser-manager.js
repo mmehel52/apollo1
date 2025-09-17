@@ -1,5 +1,4 @@
 // src/services/browser-manager.js
-const fs = require("fs");
 const puppeteer = require("puppeteer");
 
 const Logger = require("../logger");
@@ -16,7 +15,7 @@ class BrowserManager {
 
       const executablePath =
         process.env.NODE_ENV === "production"
-          ? process.env.PUPPETEER_EXECUTABLE_PATH
+          ? puppeteer.executablePath()
           : puppeteer.executablePath();
 
       const launchOptions = {
