@@ -16,7 +16,7 @@ app.use(express.urlencoded({ extended: true }));
 // cron.schedule("0 * * * *", async () => {
 //   Logger.info("Scrapping app cron");
 //   await main();
-//   Logger.success("Scrapped app");
+//   Logger.success("Scrapped ap");
 // });
 
 app.get("/scrabe", async (req, res) => {
