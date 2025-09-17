@@ -8,7 +8,8 @@
     "server": "node src/server.js",
     "scrape": "node src/services/main.js",
     "dev": "node --inspect src/server.js",
-    "dev:scrape": "node --inspect src/services/main.js"
+    "dev:scrape": "node --inspect src/services/main.js",
+    "postinstall": "npx puppeteer browsers install"
   },
   "keywords": [
     "scraper",

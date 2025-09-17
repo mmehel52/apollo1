@@ -38,8 +38,7 @@ async function main() {
 
     await browserManager.close();
   } catch (error) {
-    console.log(error);
-    Logger.error("Main process error:", error);
+    Logger.error(`Main process error: ${error}`);
   }
 }
 
