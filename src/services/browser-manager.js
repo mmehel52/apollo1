@@ -13,9 +13,11 @@ class BrowserManager {
     try {
       Logger.info("Starting browser...");
 
+      const environment = process.env.NODE_ENV;
+      const isProduction = environment === "production";
+
       const launchOptions = {
-        executablePath: puppeteer.executablePath(),
-        headless: process.env.NODE_ENV === "production" ? "new" : false,
+        headless: isProduction ? "new" : false,
         dumpio: true,
         args: [
           "--no-sandbox",
@@ -27,6 +29,8 @@ class BrowserManager {
           "--disable-web-security",
           "--disable-features=VizDisplayCompositor",
         ],
+        // Use Chromium path in production (Docker)
+        ...(isProduction && { executablePath: process.env.CHROMIUM_PATH }),
       };
 
       this.browser = await puppeteer.launch(launchOptions);

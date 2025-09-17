@@ -1,0 +1,14 @@
+version: "3.8"
+
+services:
+  puppeteer-in-docker:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      NODE_ENV: "production"
+      CHROMIUM_PATH: "/usr/bin/chromium"
+      PORT: "8080"
+    volumes:
+      - ./logs:/usr/src/app/logs
+    restart: unless-stopped
