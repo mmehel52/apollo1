@@ -14,21 +14,60 @@ class BrowserManager {
     try {
       Logger.info("Starting browser...");
 
-      Logger.info(
-        `puppeteer.executablePath(): ${
-          puppeteer.executablePath && puppeteer.executablePath()
-        }`
-      );
+      // Azure sunucusu için Chrome yolu kontrolü
+      const executablePath =
+        puppeteer.executablePath && puppeteer.executablePath();
+      Logger.info(`puppeteer.executablePath(): ${executablePath}`);
 
-      this.browser = await puppeteer.launch({
+      // Chrome'un var olup olmadığını kontrol et
+      if (executablePath && !fs.existsSync(executablePath)) {
+        Logger.warning(
+          "Chrome not found at expected path, trying system Chrome..."
+        );
+      }
+
+      const launchOptions = {
         headless: true,
         dumpio: true,
         args: [
           "--no-sandbox",
           "--disable-setuid-sandbox",
           "--disable-dev-shm-usage",
+          "--disable-gpu",
+          "--no-zygote",
+          "--single-process",
+          "--disable-background-timer-throttling",
+          "--disable-backgrounding-occluded-windows",
+          "--disable-renderer-backgrounding",
         ],
-      });
+      };
+
+      // Eğer executablePath varsa ve dosya mevcutsa kullan
+      if (executablePath && fs.existsSync(executablePath)) {
+        launchOptions.executablePath = executablePath;
+        Logger.info("Using Puppeteer's bundled Chrome");
+      } else {
+        // Azure'da sistem Chrome'unu kullanmaya çalış
+        Logger.info("Trying to use system Chrome...");
+        // Azure'da genellikle /usr/bin/google-chrome veya /usr/bin/chromium-browser
+        const systemChromePaths = [
+          "/usr/bin/google-chrome",
+          "/usr/bin/google-chrome-stable",
+          "/usr/bin/chromium-browser",
+          "/usr/bin/chromium",
+          "/usr/bin/chrome",
+        ];
+
+        for (const path of systemChromePaths) {
+          if (fs.existsSync(path)) {
+            launchOptions.executablePath = path;
+            Logger.info(`Using system Chrome at: ${path}`);
+            break;
+          }
+        }
+      }
+
+      this.browser = await puppeteer.launch(launchOptions);
 
       this.page = await this.browser.newPage();
 
