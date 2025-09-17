@@ -1,8 +1,89 @@
-FROM pull ghcr.io/puppeteer/puppeteer:24.21.0 
-ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
-ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/google-chrome-stable
-WORKDIR /app
+# Purchase Spider Docker Configuration
+
+# ============================================================================
+# Base Image
+# ============================================================================
+FROM node:18-slim AS base
+
+# Set working directory
+WORKDIR /usr/src/app
+
+# Set environment variables
+ENV PUPPETEER_SKIP_DOWNLOAD=false \
+    PUPPETEER_CACHE_DIR="/usr/src/app/.cache/puppeteer" \
+    FFMPEG_PATH="/usr/bin/ffmpeg"
+
+# Install system dependencies for Puppeteer's Chrome
+RUN apt-get update && \
+    echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | debconf-set-selections && \
+    apt-get install -y --no-install-recommends \
+    # recording, and metadata dependencies
+    ffmpeg \
+    # Chrome dependencies (for Puppeteer's bundled Chrome)
+    ca-certificates \
+    fonts-liberation \
+    libasound2 \
+    libatk-bridge2.0-0 \
+    libdrm2 \
+    libgtk-3-0 \
+    libnspr4 \
+    libnss3 \
+    libxss1 \
+    libxtst6 \
+    libgbm1 \
+    libxcomposite1 \
+    libxdamage1 \
+    libxrandr2 \
+    xdg-utils \
+    # utils
+    curl \
+    unzip \
+    fontconfig \
+    ttf-mscorefonts-installer \
+    # nginx
+    nginx && \
+    fc-cache -f && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+# ============================================================================
+# Stage 2: Install dependencies and build the application
+# ============================================================================
+FROM base AS builder
+WORKDIR /usr/src/app
 COPY package*.json ./
-RUN npm ci
+RUN npm ci --only=production
+
+# Copy source files
 COPY src/ ./src/
+
+# Create extensions directories (if needed)
+RUN mkdir -p /usr/src/app/webrtc-leak-shield /usr/src/app/uBlock-Origin-Lite
+
+# ============================================================================
+# Stage 3: Production image
+# ============================================================================
+FROM base AS production
+WORKDIR /usr/src/app
+
+# Create chrome data directory
+RUN mkdir -p /usr/src/app/chrome-data && \
+    chmod -R 777 /usr/src/app/chrome-data
+
+# Copy application files
+COPY --from=builder /usr/src/app/node_modules ./node_modules
+COPY --from=builder /usr/src/app/src ./src
+COPY package*.json ./
+
+# Copy extensions (if they exist)
+COPY --from=builder /usr/src/app/webrtc-leak-shield /usr/src/app/webrtc-leak-shield
+COPY --from=builder /usr/src/app/uBlock-Origin-Lite /usr/src/app/uBlock-Origin-Lite
+
+# Copy nginx config (if exists)
+# COPY docker/nginx.conf /etc/nginx/nginx.conf
+
+# Copy the start script (if exists)
+# COPY docker/scripts/start.sh /start.sh
+
+# Default command
 CMD ["npm", "start"]

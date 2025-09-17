@@ -13,20 +13,19 @@ class BrowserManager {
     try {
       Logger.info("Starting browser...");
 
-      const executablePath =
-        process.env.NODE_ENV === "production"
-          ? puppeteer.executablePath()
-          : puppeteer.executablePath();
-
       const launchOptions = {
-        // executablePath: executablePath,
-        headless: false,
+        executablePath: puppeteer.executablePath(),
+        headless: process.env.NODE_ENV === "production" ? "new" : false,
         dumpio: true,
         args: [
           "--no-sandbox",
           "--disable-setuid-sandbox",
           "--no-zygote",
           "--single-process",
+          "--disable-dev-shm-usage",
+          "--disable-gpu",
+          "--disable-web-security",
+          "--disable-features=VizDisplayCompositor",
         ],
       };
 
