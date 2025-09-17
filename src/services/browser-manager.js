@@ -10,27 +10,16 @@ class BrowserManager {
     this.page = null;
   }
 
-  async init({ headless = false } = {}) {
+  async init() {
     try {
       Logger.info("Starting browser...");
 
-      // Basit args listesi
-      const commonArgs = [
-        "--no-sandbox",
-        "--disable-setuid-sandbox",
-        "--disable-dev-shm-usage",
-        "--disable-gpu",
-      ];
+      this.browser = await puppeteer.launch({
+        executablePath: "/usr/bin/chromium",
+        headless: true,
+        args: ["--no-sandbox", "--disable-setuid-sandbox"],
+      });
 
-      // Launch options
-      const launchOptions = {
-        headless: headless,
-        defaultViewport: null,
-        args: commonArgs,
-        timeout: 60000,
-      };
-
-      this.browser = await puppeteer.launch(launchOptions);
       this.page = await this.browser.newPage();
 
       await this.page.setViewport({ width: 1920, height: 1080 });

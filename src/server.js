@@ -13,7 +13,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-cron.schedule("48 * * * *", async () => {
+cron.schedule("05 * * * *", async () => {
   Logger.info("Scrapping app cron");
   await main();
   Logger.success("Scrapped app");
