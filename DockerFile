@@ -1,9 +1,5 @@
-# Purchase Spider Docker Configuration
-
-# ============================================================================
-# Base Image
-# ============================================================================
-FROM node:18-slim AS base
+# Use Node.js 18 slim image
+FROM node:18-slim
 
 # Set working directory
 WORKDIR /usr/src/app
@@ -15,77 +11,25 @@ ENV PUPPETEER_SKIP_DOWNLOAD=true \
     CHROMIUM_PATH="/usr/lib/chromium/chromium" \
     NODE_ENV="production"
 
-# Install Chromium and system dependencies
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends \
-    # Chromium browser
+# Install Chromium
+RUN apt-get update && apt-get install -y --no-install-recommends \
     chromium \
-    # recording, and metadata dependencies
-    ffmpeg \
-    # Chrome dependencies
-    ca-certificates \
-    fonts-liberation \
-    libasound2 \
-    libatk-bridge2.0-0 \
-    libdrm2 \
-    libgtk-3-0 \
-    libnspr4 \
-    libnss3 \
-    libxss1 \
-    libxtst6 \
-    libgbm1 \
-    libxcomposite1 \
-    libxdamage1 \
-    libxrandr2 \
-    xdg-utils \
-    # utils
-    curl \
-    unzip \
-    fontconfig \
-    # nginx
-    nginx && \
-    fc-cache -f && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/*
 
-# ============================================================================
-# Stage 2: Install dependencies and build the application
-# ============================================================================
-FROM base AS builder
-WORKDIR /usr/src/app
+# Copy package files
 COPY package*.json ./
+
+# Install dependencies
 RUN npm ci --only=production
 
-# Copy source files
+# Copy source code
 COPY src/ ./src/
 
-# Create extensions directories (if needed)
-RUN mkdir -p /usr/src/app/webrtc-leak-shield /usr/src/app/uBlock-Origin-Lite
+# Create logs directory
+RUN mkdir -p logs
 
-# ============================================================================
-# Stage 3: Production image
-# ============================================================================
-FROM base AS production
-WORKDIR /usr/src/app
+# Expose port
+EXPOSE 8080
 
-# Create chrome data directory
-RUN mkdir -p /usr/src/app/chrome-data && \
-    chmod -R 777 /usr/src/app/chrome-data
-
-# Copy application files
-COPY --from=builder /usr/src/app/node_modules ./node_modules
-COPY --from=builder /usr/src/app/src ./src
-COPY package*.json ./
-
-# Copy extensions (if they exist)
-COPY --from=builder /usr/src/app/webrtc-leak-shield /usr/src/app/webrtc-leak-shield
-COPY --from=builder /usr/src/app/uBlock-Origin-Lite /usr/src/app/uBlock-Origin-Lite
-
-# Copy nginx config (if exists)
-# COPY docker/nginx.conf /etc/nginx/nginx.conf
-
-# Copy the start script (if exists)
-# COPY docker/scripts/start.sh /start.sh
-
-# Default command
+# Start the application
 CMD ["npm", "start"]

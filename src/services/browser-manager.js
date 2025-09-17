@@ -16,6 +16,16 @@ class BrowserManager {
       const environment = process.env.NODE_ENV;
       const isProduction = environment === "production";
 
+      // Check if we're in Docker by looking for Docker-specific environment variables
+      const isDocker =
+        process.env.CHROMIUM_PATH &&
+        process.env.CHROMIUM_PATH.includes("/usr/lib/chromium") &&
+        process.env.NODE_ENV === "production";
+
+      Logger.info(
+        `Environment: ${environment}, isProduction: ${isProduction}, isDocker: ${isDocker}, CHROMIUM_PATH: ${process.env.CHROMIUM_PATH}`
+      );
+
       const launchOptions = {
         headless: isProduction ? "new" : false,
         dumpio: true,
@@ -29,8 +39,8 @@ class BrowserManager {
           "--disable-web-security",
           "--disable-features=VizDisplayCompositor",
         ],
-        // Use Chromium path in production (Docker)
-        ...(isProduction && { executablePath: process.env.CHROMIUM_PATH }),
+        // Use Chromium path only in Docker production environment
+        ...(isDocker && { executablePath: process.env.CHROMIUM_PATH }),
       };
 
       this.browser = await puppeteer.launch(launchOptions);
