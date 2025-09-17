@@ -7,7 +7,7 @@ services:
       - "8080:8080"
     environment:
       NODE_ENV: "production"
-      CHROMIUM_PATH: "/usr/bin/chromium"
+      CHROMIUM_PATH: "/usr/lib/chromium/chromium"
       PORT: "8080"
     volumes:
       - ./logs:/usr/src/app/logs

@@ -12,7 +12,7 @@ WORKDIR /usr/src/app
 ENV PUPPETEER_SKIP_DOWNLOAD=true \
     PUPPETEER_CACHE_DIR="/usr/src/app/.cache/puppeteer" \
     FFMPEG_PATH="/usr/bin/ffmpeg" \
-    CHROMIUM_PATH="/usr/bin/chromium" \
+    CHROMIUM_PATH="/usr/lib/chromium/chromium" \
     NODE_ENV="production"
 
 # Install Chromium and system dependencies
