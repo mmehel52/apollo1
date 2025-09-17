@@ -8,8 +8,7 @@
     "server": "node src/server.js",
     "scrape": "node src/services/main.js",
     "dev": "node --inspect src/server.js",
-    "dev:scrape": "node --inspect src/services/main.js",
-    "postinstall": "npx puppeteer browsers install chrome || echo 'Chrome install failed, will use system Chrome'"
+    "dev:scrape": "node --inspect src/services/main.js"
   },
   "keywords": [
     "scraper",
@@ -20,15 +19,11 @@
   "author": "Jaxsuite",
   "license": "MIT",
   "dependencies": {
-    "agenda": "^5.0.0",
     "cors": "^2.8.5",
     "dotenv": "^17.2.2",
     "express": "^4.21.2",
     "node-cron": "^4.2.1",
     "puppeteer": "^24.21.0",
-    "puppeteer-extra": "^3.3.6",
-    "puppeteer-extra-plugin-adblocker": "^2.13.6",
-    "puppeteer-extra-plugin-stealth": "^2.11.2",
     "winston": "^3.17.0"
   },
   "engines": {

@@ -5,8 +5,6 @@ require("dotenv").config();
 const Logger = require("./logger");
 const { main } = require("./services/main");
 
-// const agenda = require("./jobs");
-
 const app = express();
 const PORT = process.env.PORT || 5000;
 
@@ -15,7 +13,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-cron.schedule("30 * * * *", async () => {
+cron.schedule("48 * * * *", async () => {
   Logger.info("Scrapping app cron");
   await main();
   Logger.success("Scrapped app");
