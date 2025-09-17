@@ -16,7 +16,7 @@ class BrowserManager {
 
       const executablePath =
         process.env.NODE_ENV === "production"
-          ? process.env.EXECUTABLE_PATH
+          ? process.env.PUPPETEER_EXECUTABLE_PATH
           : puppeteer.executablePath();
 
       const launchOptions = {
