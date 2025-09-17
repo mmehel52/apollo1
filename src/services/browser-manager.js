@@ -19,7 +19,7 @@ class BrowserManager {
           : puppeteer.executablePath();
 
       const launchOptions = {
-        executablePath: executablePath,
+        // executablePath: executablePath,
         headless: false,
         dumpio: true,
         args: [
