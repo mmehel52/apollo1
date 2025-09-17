@@ -15,9 +15,11 @@ class BrowserManager {
       Logger.info("Starting browser...");
 
       Logger.info(
-        "puppeteer.executablePath():",
-        puppeteer.executablePath && puppeteer.executablePath()
+        `puppeteer.executablePath(): ${
+          puppeteer.executablePath && puppeteer.executablePath()
+        }`
       );
+
       this.browser = await puppeteer.launch({
         headless: true,
         dumpio: true,
@@ -36,7 +38,7 @@ class BrowserManager {
 
       Logger.success("Browser started successfully");
     } catch (error) {
-      Logger.error("Browser startup error:", error);
+      Logger.error(`Browser startup error: ${error}`);
       throw error;
     }
   }
