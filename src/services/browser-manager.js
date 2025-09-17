@@ -14,17 +14,9 @@ class BrowserManager {
     try {
       Logger.info("Starting browser...");
 
-      // Azure sunucusu için Chrome yolu kontrolü
       const executablePath =
         puppeteer.executablePath && puppeteer.executablePath();
       Logger.info(`puppeteer.executablePath(): ${executablePath}`);
-
-      // Chrome'un var olup olmadığını kontrol et
-      if (executablePath && !fs.existsSync(executablePath)) {
-        Logger.warning(
-          "Chrome not found at expected path, trying system Chrome..."
-        );
-      }
 
       const launchOptions = {
         headless: false,
@@ -41,40 +33,6 @@ class BrowserManager {
           "--disable-renderer-backgrounding",
         ],
       };
-
-      // // Eğer executablePath varsa ve dosya mevcutsa kullan
-      // if (executablePath && fs.existsSync(executablePath)) {
-      //   launchOptions.executablePath = executablePath;
-      //   Logger.info("Using Puppeteer's bundled Chrome");
-      // } else {
-      //   // Azure'da sistem Chrome'unu kullanmaya çalış
-      //   Logger.info("Trying to use system Chrome...");
-
-      //   // Azure'da genellikle /usr/bin/google-chrome veya /usr/bin/chromium-browser
-      //   const systemChromePaths = [
-      //     "/usr/bin/google-chrome",
-      //     "/usr/bin/google-chrome-stable",
-      //     "/usr/bin/chromium-browser",
-      //     "/usr/bin/chromium",
-      //     "/usr/bin/chrome",
-      //     "/usr/bin/google-chrome-unstable",
-      //     "/opt/google/chrome/chrome",
-      //     "/opt/google/chrome/google-chrome",
-      //     "/snap/bin/chromium",
-      //     "/usr/local/bin/chrome",
-      //     "/usr/local/bin/chromium",
-      //   ];
-
-      //   let chromeFound = false;
-      //   for (const path of systemChromePaths) {
-      //     if (fs.existsSync(path)) {
-      //       launchOptions.executablePath = path;
-      //       Logger.info(`Using system Chrome at: ${path}`);
-      //       chromeFound = true;
-      //       break;
-      //     }
-      //   }
-      // }
 
       this.browser = await puppeteer.launch(launchOptions);
 
