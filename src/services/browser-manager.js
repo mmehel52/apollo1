@@ -13,11 +13,9 @@ class BrowserManager {
     try {
       Logger.info("Starting browser...");
 
-      const isProduction = process.env.NODE_ENV === "production";
-
       this.browser = await puppeteer.launch({
+        headless: false,
         args: ["--no-sandbox", "--disable-setuid-sandbox"],
-        ...(isProduction && { executablePath: process.env.CHROMIUM_PATH }),
       });
 
       this.page = await this.browser.newPage();
